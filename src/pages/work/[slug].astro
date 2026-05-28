@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({
+    params: { slug: p.id },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+const data = project.data;
+const { Content } = await render(project);
+---
+
+<Base
+  title={`${data.title} — Case Study · Aditya Singh`}
+  description={data.summary}
+>
+  <article>
+    <header class="cs-hero">
+      <a href="/#work" class="cs-back">← Back to work</a>
+      <div class="eyebrow">{data.category}</div>
+      <h1 class="cs-title">{data.title}</h1>
+      <p class="cs-tagline">{data.tagline}</p>
+
+      <div class="cs-metrics">
+        {data.metrics.map((m) => (
+          <div class="cs-metric">
+            <span class="metric">{m.value}</span>
+            <span class="lbl">{m.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="cs-facts" style="display:flex;flex-wrap:wrap;gap:2rem;font-size:0.85rem;color:var(--text-muted)">
+        {data.role && <div><strong style="color:var(--text)">Role</strong><br />{data.role}</div>}
+        {data.timeframe && <div><strong style="color:var(--text)">Timeframe</strong><br />{data.timeframe}</div>}
+        <div><strong style="color:var(--text)">Stack</strong><br />{data.tech.join(' · ')}</div>
+        {data.repo && (
+          <div>
+            <strong style="color:var(--text)">Source</strong><br />
+            <a href={data.repo} target="_blank" rel="noopener" style="color:var(--accent)">GitHub ↗</a>
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="cs-body">
+      <Content />
+    </div>
+
+    <div class="inner" style="padding-bottom:5rem;text-align:center">
+      <a href="/#work" class="btn btn--outline">← All projects</a>
+    </div>
+  </article>
+</Base>

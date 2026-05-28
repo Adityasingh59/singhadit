@@ -1,0 +1,303 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const timeline = [
+  { dot: '🎓', year: '2021 – 2024', title: 'BS Computer Science', desc: 'KC College, Mumbai. CGPA 9.73. Built the technical foundation that powers everything I do.' },
+  { dot: '🚀', year: '2023 – 2024', title: 'First Product', desc: 'Led the AI Placement System as Product Lead — shipped with a 4-person team across 3 Agile sprints.' },
+  { dot: '⚡', year: '2024 – 2025', title: 'Faclon Labs', desc: 'Business Strategy Analyst at a funded IoT startup. Owned a supply-chain product end-to-end.' },
+  { dot: '📊', year: '2024 – 2025', title: 'Data Science Diploma', desc: 'SDBI postgrad. CGPA 9.05. Deep dive into ML, NLP, and predictive modeling.' },
+  { dot: '🏛', year: '2025 – Now', title: 'NYU Master’s', desc: 'MS Project Management (STEM), GPA 3.91. Building NexusIMS & SafePaste alongside coursework.' },
+];
+
+const impact = [
+  { n: 20, suffix: '%', label: 'Supply-chain reliability improvement at Faclon Labs' },
+  { n: 60, suffix: '%', label: 'Reduction in manual resume screening via NLP automation' },
+  { n: 30, suffix: '%', label: 'Improvement in cross-team milestone tracking' },
+  { n: 40, suffix: '%', label: 'Fewer ad-hoc reporting requests via self-serve dashboards' },
+];
+
+const process = [
+  { num: '01', phase: 'Discovery', title: 'Understand the system', items: ['Stakeholder interviews', 'Root-cause analysis', 'Gap analysis & mapping', 'Market sizing (TAM/SAM)'] },
+  { num: '02', phase: 'Plan', title: 'Define the blueprint', items: ['PRD / BRD authorship', 'RICE prioritization', 'OKR & KPI definition', 'Roadmap sequencing'] },
+  { num: '03', phase: 'Execute', title: 'Ship incrementally', items: ['Agile sprint management', 'Cross-functional sync', 'UAT & defect resolution', 'Stakeholder alignment'] },
+  { num: '04', phase: 'Deliver', title: 'Measure & iterate', items: ['KPI dashboarding', 'User feedback loops', 'Post-launch iteration', 'Executive reporting'] },
+];
+
+const tools = [
+  { i: '🐍', n: 'Python' }, { i: '🗃', n: 'SQL' }, { i: '📊', n: 'Power BI' }, { i: '📈', n: 'Tableau' },
+  { i: '⚛️', n: 'React' }, { i: '🔥', n: 'FastAPI' }, { i: '🐘', n: 'PostgreSQL' }, { i: '🍃', n: 'MongoDB' },
+  { i: '📋', n: 'Jira' }, { i: '✅', n: 'ClickUp' }, { i: '🎨', n: 'Figma' }, { i: '☁️', n: 'AWS' },
+  { i: '🐳', n: 'Docker' }, { i: '🤖', n: 'NLP / ML' }, { i: '🔗', n: 'REST APIs' }, { i: '📦', n: 'GitHub' },
+  { i: '⚡', n: 'Redis' }, { i: '🧩', n: 'Agile / Scrum' },
+];
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-shape"></div>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-label reveal">Product Manager &amp; Strategist</div>
+        <h1 class="h1 reveal" data-delay="100">I turn complex<br />problems into<br /><em>scalable products.</em></h1>
+        <p class="hero-sub reveal" data-delay="200">
+          NYU grad student. Ex-Faclon Labs. I live at the intersection of data,
+          product strategy, and execution — building systems that make decisions faster.
+        </p>
+        <div class="hero-actions reveal" data-delay="300">
+          <a href="#work" class="btn">Explore my work</a>
+          <a href="#contact" class="btn btn--outline">Let’s connect</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal" data-delay="200">
+        <div class="hero-frame">
+          <img src="/images/aditya-hero.jpg" alt="Aditya Singh" width="420" height="520" fetchpriority="high" />
+        </div>
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">Open to opportunities<span>NYC · Remote · Hybrid</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section section--cream" id="story">
+    <div class="inner about-grid">
+      <div class="about-photo reveal">
+        <div class="about-img"><img src="/images/aditya-about.jpg" alt="Aditya Singh portrait" width="952" height="1190" loading="lazy" /></div>
+        <div class="about-quote-card">
+          <p class="about-quote">“I design like a product manager who understands systems, not just visuals.”</p>
+          <p class="about-quote-meta">— How I approach every problem</p>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="eyebrow">My Story</div>
+        <h2 class="h2">From code<br />to <em>strategy</em></h2>
+        <div class="gold-line"></div>
+        <p class="about-body reveal">
+          I started in computer science — writing code, building systems, learning how things
+          work from the inside. Then I realized the hardest problems aren’t technical.
+          They’re organizational, strategic, human.
+        </p>
+        <p class="about-body reveal">
+          At Faclon Labs, I owned an end-to-end inventory management system that improved
+          supply-chain reliability by 20% — not as a developer, but as a product strategist
+          who could speak both languages fluently.
+        </p>
+        <p class="about-body reveal">
+          Now at NYU pursuing my MS in Project Management (STEM), I’m sharpening the frameworks
+          that turn ambiguity into architecture — and architecture into outcomes.
+        </p>
+        <div class="pills reveal">
+          {['Product Strategy', 'B2B SaaS', 'Data Analytics', 'Supply Chain', 'Agile / Scrum', 'NLP & AI'].map((p) => (
+            <span class="pill">{p}</span>
+          ))}
+        </div>
+        <div class="reveal" style="display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="#work" class="btn">See my work</a>
+          <a href="https://www.linkedin.com/in/singh-aditya59/" class="btn btn--outline" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section section--alt">
+    <div class="inner">
+      <div class="eyebrow reveal">Journey</div>
+      <h2 class="h2 reveal">Milestones that<br />shaped <em>my thinking</em></h2>
+      <div class="timeline">
+        <div class="timeline-track">
+          {timeline.map((t, i) => (
+            <div class="tl-item reveal" data-delay={i * 90}>
+              <div class="tl-dot">{t.dot}</div>
+              <div class="tl-year">{t.year}</div>
+              <div class="tl-title">{t.title}</div>
+              <div class="tl-desc">{t.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="section section--cream" id="work">
+    <div class="inner">
+      <div class="eyebrow reveal">Systems I Build</div>
+      <h2 class="h2 reveal">Products, not <em>just projects</em></h2>
+      <p class="lead reveal">
+        Every system here started with a real problem, a structured discovery process, and a
+        measurable outcome. Not demos — products with users, iterations, and impact.
+      </p>
+      <div class="projects-grid">
+        {projects.map((p, i) => (
+          <a href={`/work/${p.id}`} class:list={['project-card', 'reveal', { featured: p.data.featured }]} data-delay={i * 80}>
+            <div class:list={['project-visual', p.data.visual]}>{p.data.emoji}</div>
+            <div>
+              <span class="chip">{p.data.category}</span>
+              <h3 class="project-name">{p.data.title}</h3>
+              <p class="project-desc">{p.data.summary}</p>
+              <div class="tags">
+                {p.data.tech.map((t) => <span class="tag">{t}</span>)}
+              </div>
+              <div class="project-meta">
+                {p.data.metrics.slice(0, 2).map((m, j) => (
+                  <>{j > 0 && <span>·</span>}<span><span class="metric">{m.value}</span> {m.label}</span></>
+                ))}
+              </div>
+              <span class="project-link">Read the case study →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section class="impact" id="impact">
+    <div class="inner">
+      <div class="eyebrow reveal">Measurable Outcomes</div>
+      <h2 class="h2 reveal">Numbers that<br /><em>tell the story</em></h2>
+      <div class="impact-grid">
+        {impact.map((m, i) => (
+          <div class="impact-card reveal" data-delay={i * 120}>
+            <div class="impact-num"><span data-count={m.n}>0</span><span class="impact-suffix">{m.suffix}</span></div>
+            <div class="impact-divider"></div>
+            <div class="impact-label">{m.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section section--alt" id="process">
+    <div class="inner">
+      <div class="eyebrow reveal">How I Work</div>
+      <h2 class="h2 reveal">My product<br /><em>execution model</em></h2>
+      <p class="lead reveal">Every engagement follows the same rigorous pattern — from messy problem to measurable outcome.</p>
+      <div class="pipeline">
+        {process.map((s, i) => (
+          <div class="step reveal" data-delay={i * 120}>
+            <div class="step-num">{s.num}</div>
+            <div class="step-phase">{s.phase}</div>
+            <div class="step-title">{s.title}</div>
+            <ul class="step-items">{s.items.map((it) => <li>{it}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="section section--cream" id="stack">
+    <div class="inner">
+      <div class="eyebrow reveal">Technical Fluency</div>
+      <h2 class="h2 reveal">Tools of the <em>trade</em></h2>
+      <div class="tools-grid">
+        {tools.map((t, i) => (
+          <div class="tool reveal" data-delay={i * 40}>
+            <span class="tool-icon">{t.i}</span>
+            <span class="tool-name">{t.n}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA + CONTACT -->
+  <section class="cta" id="contact">
+    <div class="inner">
+      <div class="eyebrow eyebrow--center reveal">Ready to Build</div>
+      <h2 class="cta-h2 reveal">Have a problem<br /><em>worth solving?</em></h2>
+      <p class="cta-sub reveal">
+        I’m actively exploring Product Manager, Business Analyst, and Data PM roles where I can
+        bridge technical rigor with business impact. F-1 Visa · STEM OPT Eligible.
+      </p>
+
+      <form class="contact-form reveal" id="contactForm">
+        <!-- Web3Forms: replace the access key below with your own from https://web3forms.com (free) -->
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="hidden" name="subject" value="New message from singhadit.com" />
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+        <div class="contact-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn" style="justify-content:center">Send message</button>
+        <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="/resume.pdf" class="btn btn--outline" download>↓ Download Résumé (PDF)</a>
+        <a href="mailto:singhadit.505@gmail.com" class="btn btn--outline">singhadit.505@gmail.com</a>
+      </div>
+
+      <div class="cta-links reveal">
+        <a href="https://www.linkedin.com/in/singh-aditya59/" class="cta-link" target="_blank" rel="noopener">LinkedIn →</a>
+        <a href="https://github.com/Adityasingh59" class="cta-link" target="_blank" rel="noopener">GitHub →</a>
+        <a href="mailto:singhadit.505@gmail.com" class="cta-link">Email →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+  const note = document.getElementById('formNote');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!note) return;
+    const data = new FormData(form);
+    const key = data.get('access_key');
+
+    // Graceful fallback until a Web3Forms key is configured.
+    if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+      const name = encodeURIComponent(String(data.get('name') || ''));
+      const msg = encodeURIComponent(String(data.get('message') || ''));
+      note.textContent = 'Opening your email client…';
+      note.className = 'form-note ok';
+      window.location.href = `mailto:singhadit.505@gmail.com?subject=Portfolio enquiry from ${name}&body=${msg}`;
+      return;
+    }
+
+    note.textContent = 'Sending…';
+    note.className = 'form-note';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: data,
+      });
+      const json = await res.json();
+      if (json.success) {
+        note.textContent = 'Thanks — your message is on its way. I’ll get back to you soon.';
+        note.className = 'form-note ok';
+        form.reset();
+      } else {
+        throw new Error(json.message || 'Something went wrong');
+      }
+    } catch (err) {
+      note.textContent = 'Couldn’t send right now — please email me directly at singhadit.505@gmail.com.';
+      note.className = 'form-note error';
+    }
+  });
+</script>
