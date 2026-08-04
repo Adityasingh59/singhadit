@@ -19,6 +19,8 @@ const projects = defineCollection({
     artifacts: z
       .array(z.object({ label: z.string(), href: z.string(), note: z.string().optional() }))
       .optional(),
+    /** Social card for this case study; falls back to the site default. */
+    ogImage: z.string().optional(),
     repo: z.string().url().optional(),
     role: z.string().optional(),
     timeframe: z.string().optional(),

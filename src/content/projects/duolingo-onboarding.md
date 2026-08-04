@@ -21,10 +21,12 @@ metrics:
   - { value: "3", label: "arms, fully powered" }
   - { value: "1.7%", label: "detectable effect on D7" }
   - { value: "14 days", label: "to primary readout" }
+ogImage: /duolingo/og-image.png
 artifacts:
   - { label: "Experiment design doc", href: "/duolingo/experiment-design.html", note: "The full spec — power analysis, guardrails, decision rules, sourced assumptions" }
   - { label: "Variant mockups", href: "/duolingo/variant-mockups.html", note: "Control vs. treatment screens across all three arms" }
   - { label: "Readout deck", href: "/duolingo/experiment-deck.pptx", note: "12 slides, stakeholder-facing (PPTX)" }
+  - { label: "Summary carousel", href: "/duolingo/carousel.pdf", note: "The argument in brief (PDF)" }
 ---
 
 ## The observation
