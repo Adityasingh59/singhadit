@@ -1,0 +1,70 @@
+---
+/** AI Placement — the actual PM artifact: the RICE table that decided build order. */
+const rows = [
+  { f: 'NLP resume parser', r: 800, i: 3, c: 0.8, e: 3, s: 640, cut: false },
+  { f: 'Rank vs. role criteria', r: 800, i: 2, c: 0.8, e: 2, s: 640, cut: false },
+  { f: 'Coordinator dashboard', r: 120, i: 2, c: 1.0, e: 2, s: 120, cut: false },
+  { f: 'Recruiter analytics', r: 40, i: 1, c: 0.5, e: 5, s: 4, cut: true },
+];
+---
+<svg viewBox="0 0 420 260" role="img" aria-label="RICE prioritization table for the AI Placement System, showing the NLP parser and ranking scoring highest and analytics deferred, alongside the screening funnel.">
+  <g fill="none" stroke-width="1">
+    <text class="lbl" x="0" y="10">PRIORITISATION — RICE (REACH × IMPACT × CONFIDENCE ÷ EFFORT)</text>
+
+    <!-- header -->
+    <line class="strong" x1="0" y1="18" x2="420" y2="18" />
+    <text class="lbl" x="0" y="30">FEATURE</text>
+    <text class="lbl" x="212" y="30">R</text>
+    <text class="lbl" x="250" y="30">I</text>
+    <text class="lbl" x="284" y="30">C</text>
+    <text class="lbl" x="318" y="30">E</text>
+    <text class="lbl" x="356" y="30">SCORE</text>
+    <line class="strong" x1="0" y1="36" x2="420" y2="36" />
+
+    {rows.map((row, i) => (
+      <>
+        <text class={`mono ${row.cut ? 'dim' : ''}`} x="0" y={52 + i * 20}>{row.f}</text>
+        <text class={`mono ${row.cut ? 'dim' : ''}`} x="212" y={52 + i * 20}>{row.r}</text>
+        <text class={`mono ${row.cut ? 'dim' : ''}`} x="250" y={52 + i * 20}>{row.i}</text>
+        <text class={`mono ${row.cut ? 'dim' : ''}`} x="284" y={52 + i * 20}>{row.c}</text>
+        <text class={`mono ${row.cut ? 'dim' : ''}`} x="318" y={52 + i * 20}>{row.e}</text>
+        <text class={`mono ${row.cut ? 'dim' : 'sig'}`} x="356" y={52 + i * 20}>{row.s}</text>
+        {row.cut && <line class="sig-stroke" x1="0" y1={48 + i * 20} x2="390" y2={48 + i * 20} />}
+        <line class="rule" x1="0" y1={58 + i * 20} x2="420" y2={58 + i * 20} />
+      </>
+    ))}
+    <text class="lbl sig" x="0" y="150">↑ DEFERRED — LOW REACH, HIGH EFFORT. SHIPPED THE TOP TWO FIRST.</text>
+
+    <!-- funnel -->
+    <text class="lbl" x="0" y="180">SCREENING FUNNEL — 3 SPRINTS, 4 PEOPLE, 12 UAT CASES</text>
+    <line class="rule" x1="0" y1="188" x2="420" y2="188" />
+
+    <rect class="solid" x="0.5" y="200.5" width="150" height="24" />
+    <text class="mono" x="8" y="216">inbound résumés</text>
+    <rect class="solid" x="164.5" y="200.5" width="110" height="24" />
+    <text class="mono" x="172" y="216">Gemini-Pro parse</text>
+    <rect class="sig-fill" x="288.5" y="200.5" width="131" height="24" />
+    <text class="mono inv" x="296" y="216">ranked shortlist</text>
+
+    <line class="sig-stroke" x1="150" y1="212" x2="163" y2="212" />
+    <line class="sig-stroke" x1="274" y1="212" x2="287" y2="212" />
+
+    <text class="lbl" x="0" y="242">MANUAL EFFORT −60%</text>
+    <text class="lbl" x="130" y="242">WORKFLOW EFFICIENCY +30%</text>
+    <text class="lbl" x="300" y="242">DEFECTS RESOLVED 100%</text>
+    <line class="rule" x1="0" y1="252" x2="420" y2="252" />
+  </g>
+</svg>
+
+<style>
+  .lbl { font-family: var(--mono); font-size: 6px; letter-spacing: 0.09em; fill: var(--ink-3); }
+  .mono { font-family: var(--mono); font-size: 7.5px; fill: var(--ink-2); }
+  .dim { opacity: 0.4; }
+  .sig { fill: var(--signal); }
+  .inv { fill: var(--signal-ink); }
+  .rule { stroke: var(--rule); }
+  .strong { stroke: var(--ink-3); }
+  .solid { stroke: var(--ink-3); }
+  .sig-stroke { stroke: var(--signal); }
+  .sig-fill { fill: var(--signal); stroke: var(--signal); }
+</style>

@@ -1,0 +1,86 @@
+---
+/**
+ * Lesson-First Onboarding — the experiment itself.
+ * The argument is positional: where the first lesson sits relative to the
+ * intake screens. Filled block = value delivered. Dashed = screens relocated
+ * behind it. Numbers below are from the design doc's power analysis.
+ */
+const screen = 20;
+const gap = 4;
+const unit = screen + gap;
+const lessonW = 54;
+
+const arms = [
+  { y: 26, before: 6, after: 0, note: '6 screens before value' },
+  { y: 74, before: 2, after: 4, note: '2 before · 4 relocated' },
+  { y: 122, before: 3, after: 0, note: 'same 6 asks, 3 screens' },
+];
+---
+<svg viewBox="0 0 420 268" role="img" aria-label="Three-arm experiment design. Control places six intake screens before the first lesson; T1 moves four of them behind it; T2 compresses six questions onto three screens. Primary metric is D7 retention, with notification opt-in as a non-inferiority guardrail.">
+  <g fill="none" stroke-width="1">
+    <text class="lbl" x="0" y="8">THREE ARMS · NEW INSTALLS · EQUAL ALLOCATION 33.3%</text>
+    <line class="strong" x1="0" y1="14" x2="420" y2="14" />
+
+    <!-- ARM LABELS -->
+    <text class="lbl" x="0" y="22">CONTROL — CURRENT FLOW</text>
+    <text class="lbl sig" x="0" y="70">T1 — LESSON-FIRST</text>
+    <text class="lbl" x="0" y="118">T2 — COMPRESSED</text>
+
+    {arms.map((arm) => {
+      const beforeW = arm.before * unit;
+      const lessonX = beforeW + 2;
+      const afterX = lessonX + lessonW + 6;
+      return (
+        <>
+          {/* intake screens ahead of the lesson */}
+          {Array.from({ length: arm.before }).map((_, i) => (
+            <rect class="rule" x={i * unit + 0.5} y={arm.y + 0.5} width={screen} height="20" />
+          ))}
+          {/* the first lesson */}
+          <rect class="sig-fill" x={lessonX} y={arm.y} width={lessonW} height="21" />
+          <text class="mono inv" x={lessonX + 6} y={arm.y + 14}>LESSON</text>
+          {/* screens relocated behind the lesson */}
+          {Array.from({ length: arm.after }).map((_, i) => (
+            <rect class="rule dashed" x={afterX + i * unit + 0.5} y={arm.y + 0.5} width={screen} height="20" stroke-dasharray="2 2" />
+          ))}
+          <text class="lbl" x={arm.after ? afterX + arm.after * unit + 8 : lessonX + lessonW + 10} y={arm.y + 13}>{arm.note}</text>
+        </>
+      );
+    })}
+
+    <text class="lbl" x="0" y="156">SOLID = ASKED BEFORE VALUE · DASHED = ASKED AFTER · FILLED = VALUE DELIVERED</text>
+
+    <!-- METRIC TREE -->
+    <line class="strong" x1="0" y1="166" x2="420" y2="166" />
+    <text class="mono sig" x="0" y="180">PRIMARY</text>
+    <text class="mono" x="72" y="180">D7 retention — readout day 14</text>
+    <line class="rule" x1="0" y1="186" x2="420" y2="186" />
+    <text class="mono" x="0" y="199">CONFIRM</text>
+    <text class="mono" x="72" y="199">D14 retention — day 21</text>
+    <line class="rule" x1="0" y1="205" x2="420" y2="205" />
+    <text class="mono dim" x="0" y="218">EXCLUDED</text>
+    <text class="mono dim" x="72" y="218">first-lesson completion — rises by construction</text>
+    <line class="sig-stroke" x1="70" y1="214" x2="330" y2="214" />
+    <line class="rule" x1="0" y1="224" x2="420" y2="224" />
+
+    <!-- GUARDRAIL + SIZING -->
+    <text class="lbl sig" x="0" y="240">GUARDRAIL · NOTIFICATION OPT-IN — NON-INFERIORITY MARGIN −1.0%, BREACH HOLDS THE SHIP</text>
+    <text class="lbl" x="0" y="256">n = 233,333/ARM</text>
+    <text class="lbl" x="112" y="256">MDE 1.70% REL</text>
+    <text class="lbl" x="216" y="256">α 0.025</text>
+    <text class="lbl" x="286" y="256">POWER 80%</text>
+    <text class="lbl" x="368" y="256">7-DAY ENROL</text>
+  </g>
+</svg>
+
+<style>
+  .lbl { font-family: var(--mono); font-size: 6px; letter-spacing: 0.09em; fill: var(--ink-3); }
+  .mono { font-family: var(--mono); font-size: 7.5px; fill: var(--ink-2); }
+  .sig { fill: var(--signal); }
+  .inv { fill: var(--signal-ink); font-size: 7px; letter-spacing: 0.06em; }
+  .dim { opacity: 0.45; }
+  .rule { stroke: var(--rule); }
+  .strong { stroke: var(--ink-3); }
+  .sig-fill { fill: var(--signal); stroke: none; }
+  .sig-stroke { stroke: var(--signal); }
+</style>

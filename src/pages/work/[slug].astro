@@ -1,59 +1,92 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import FigNexus from '../../components/figures/FigNexus.astro';
+import FigSafePaste from '../../components/figures/FigSafePaste.astro';
+import FigPlacement from '../../components/figures/FigPlacement.astro';
+import FigInsurance from '../../components/figures/FigInsurance.astro';
+import FigDuolingo from '../../components/figures/FigDuolingo.astro';
+
+const figures: Record<string, any> = {
+  nexusims: FigNexus,
+  safepaste: FigSafePaste,
+  'ai-placement': FigPlacement,
+  'insurance-analytics': FigInsurance,
+  'duolingo-onboarding': FigDuolingo,
+};
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map((p) => ({
-    params: { slug: p.id },
-    props: { project: p },
-  }));
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
 }
 
 const { project } = Astro.props;
-const data = project.data;
+const d = project.data;
 const { Content } = await render(project);
+const Figure = figures[project.id];
 ---
 
-<Base
-  title={`${data.title} — Case Study · Aditya Singh`}
-  description={data.summary}
->
+<Base title={`${d.title} — case study · Aditya Singh`} description={d.summary}>
   <article>
-    <header class="cs-hero">
-      <a href="/#work" class="cs-back">← Back to work</a>
-      <div class="eyebrow">{data.category}</div>
-      <h1 class="cs-title">{data.title}</h1>
-      <p class="cs-tagline">{data.tagline}</p>
+    <header class="cs-head wrap">
+      <a href="/#work" class="meta" style="text-decoration:none">← Index</a>
+      <h1 class="cs-title">{d.title}</h1>
+      <p class="cs-thesis">{d.tagline}</p>
+    </header>
 
-      <div class="cs-metrics">
-        {data.metrics.map((m) => (
-          <div class="cs-metric">
-            <span class="metric">{m.value}</span>
-            <span class="lbl">{m.label}</span>
+    <div class="wrap">
+      <div class="spec" style="margin-bottom:2.5rem">
+        <div class="spec-bar">
+          <span class="meta">Fig. 1 — {d.category}</span>
+          <span class="meta">{d.year}</span>
+        </div>
+        <div class="spec-fig" style="border-left:none; padding:clamp(1.25rem,3vw,2.5rem)">
+          {Figure && <Figure />}
+        </div>
+      </div>
+
+      <dl class="kv" style="margin-bottom:2.5rem">
+        {d.role && <><dt>Role</dt><dd>{d.role}</dd></>}
+        {d.timeframe && <><dt>Timeframe</dt><dd>{d.timeframe}</dd></>}
+        <dt>Stack</dt><dd>{d.tech.join(' · ')}</dd>
+        {d.repo && <><dt>Source</dt><dd><a href={d.repo} target="_blank" rel="noopener" class="signal">{d.repo.replace('https://', '')} ↗</a></dd></>}
+      </dl>
+
+      <div class="figures" style="margin-bottom:2.5rem">
+        {d.metrics.map((m) => (
+          <div>
+            <div class="figure-n">{m.value}</div>
+            <div class="figure-l">{m.label}</div>
           </div>
         ))}
       </div>
 
-      <div class="cs-facts" style="display:flex;flex-wrap:wrap;gap:2rem;font-size:0.85rem;color:var(--text-muted)">
-        {data.role && <div><strong style="color:var(--text)">Role</strong><br />{data.role}</div>}
-        {data.timeframe && <div><strong style="color:var(--text)">Timeframe</strong><br />{data.timeframe}</div>}
-        <div><strong style="color:var(--text)">Stack</strong><br />{data.tech.join(' · ')}</div>
-        {data.repo && (
-          <div>
-            <strong style="color:var(--text)">Source</strong><br />
-            <a href={data.repo} target="_blank" rel="noopener" style="color:var(--accent)">GitHub ↗</a>
-          </div>
-        )}
+      {d.artifacts && (
+        <section style="margin-bottom:2.5rem">
+          <h2 class="meta signal" style="margin-bottom:0.5rem">Artifacts</h2>
+          <ul class="linklist">
+            {d.artifacts.map((a) => (
+              <li>
+                <a href={a.href} target="_blank" rel="noopener">
+                  <span>
+                    {a.label}
+                    {a.note && <span class="meta" style="display:block; margin-top:0.15rem">{a.note}</span>}
+                  </span>
+                  <span class="k">Open ↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <div class="prose">
+        <Content />
       </div>
-    </header>
 
-    <div class="cs-body">
-      <Content />
-    </div>
-
-    <div class="inner" style="padding-bottom:5rem;text-align:center">
-      <a href="/#work" class="btn btn--outline">← All projects</a>
+      <div style="border-top:1px solid var(--rule); margin-top:3rem; padding:2rem 0 4rem">
+        <a href="/#work" class="btn">← All work</a>
+      </div>
     </div>
   </article>
 </Base>

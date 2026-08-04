@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ONB-2026-14 · Lesson-First Onboarding — Variant Mockups</title>
+<style>
+  :root{
+    --green:#58CC02; --green-dk:#4CAF00; --blue:#1CB0F6; --blue-dk:#1899D6;
+    --ink:#3C3C3C; --ink-soft:#777; --line:#E5E5E5; --bg:#F7F7F7;
+    --purple:#CE82FF; --gold:#FFC800; --red:#FF4B4B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+       background:var(--bg);color:var(--ink);padding:40px 28px 80px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1500px;margin:0 auto}
+  header{margin-bottom:40px;border-bottom:3px solid var(--line);padding-bottom:24px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
+  h1{font-size:34px;margin-top:8px;letter-spacing:-.02em}
+  .sub{margin-top:10px;color:var(--ink-soft);font-size:15px;max-width:760px;line-height:1.6}
+  .arm{margin-bottom:52px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:26px 26px 30px}
+  .arm-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .tag{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+       padding:5px 11px;border-radius:99px;color:#fff}
+  .tag.c{background:#9E9E9E}.tag.t1{background:var(--green)}.tag.t2{background:var(--blue)}
+  .arm h2{font-size:22px;letter-spacing:-.01em}
+  .arm .note{font-size:14px;color:var(--ink-soft);margin:8px 0 22px;line-height:1.6;max-width:900px}
+  .arm .note b{color:var(--ink)}
+  .rail{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 16px;align-items:flex-start}
+  .step{flex:0 0 auto;text-align:center}
+  .caption{font-size:11px;font-weight:800;color:var(--ink-soft);margin-top:9px;letter-spacing:.03em}
+  .caption .n{display:inline-block;background:var(--line);color:var(--ink);border-radius:99px;
+              padding:1px 7px;margin-right:5px;font-size:10px}
+  .arrow{flex:0 0 auto;align-self:center;color:#CFCFCF;font-size:24px;margin-top:-24px}
+
+  /* phone */
+  .ph{width:186px;height:378px;border:7px solid #2B2B2B;border-radius:26px;background:#fff;
+      overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:0 6px 18px rgba(0,0,0,.10)}
+  .ph.hl{border-color:var(--green);box-shadow:0 6px 22px rgba(88,204,2,.30)}
+  .ph.value{border-color:var(--gold)}
+  .bar{height:16px;background:#fff;display:flex;align-items:center;justify-content:space-between;
+       padding:0 9px;font-size:7px;font-weight:800;color:#999;flex:0 0 auto}
+  .prog{display:flex;align-items:center;gap:6px;padding:8px 10px 2px;flex:0 0 auto}
+  .prog .back{color:#CFCFCF;font-size:12px;font-weight:900}
+  .prog .track{flex:1;height:7px;background:#EDEDED;border-radius:99px;overflow:hidden}
+  .prog .fill{height:100%;background:var(--green);border-radius:99px}
+  .body{flex:1;padding:10px 12px;display:flex;flex-direction:column;overflow:hidden}
+  .duo{font-size:24px;line-height:1;text-align:center;margin:4px 0 2px}
+  .q{font-size:11.5px;font-weight:900;line-height:1.32;margin-bottom:9px;letter-spacing:-.01em}
+  .q.ctr{text-align:center}
+  .opt{border:2px solid var(--line);border-bottom-width:3px;border-radius:10px;padding:6px 8px;
+       font-size:9px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:6px;color:#4b4b4b}
+  .opt .em{font-size:11px}
+  .opt.sel{border-color:#84D8FF;background:#DDF4FF;color:#1899D6}
+  .opt.mini{padding:5px 7px;font-size:8.5px;margin-bottom:4px}
+  .grp{margin-bottom:8px}
+  .grp .lbl{font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#B0B0B0;margin-bottom:4px}
+  .btn{margin-top:auto;background:var(--green);color:#fff;text-align:center;font-size:9.5px;font-weight:900;
+       letter-spacing:.06em;padding:8px;border-radius:11px;box-shadow:0 3px 0 var(--green-dk);text-transform:uppercase}
+  .btn.gray{background:#E5E5E5;color:#AFAFAF;box-shadow:0 3px 0 #D0D0D0}
+  .btn.blue{background:var(--blue);box-shadow:0 3px 0 var(--blue-dk)}
+  .ghost{text-align:center;font-size:8.5px;font-weight:800;color:#AFAFAF;margin-top:7px;text-transform:uppercase}
+
+  /* lesson + celebration */
+  .lesson .hdr{display:flex;align-items:center;gap:6px;padding:8px 10px 4px}
+  .heart{color:var(--red);font-size:10px;font-weight:900}
+  .word{border:2px solid var(--line);border-bottom-width:3px;border-radius:9px;padding:6px;font-size:9px;
+        font-weight:800;text-align:center;background:#fff}
+  .tiles{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .tiles .word{flex:0 0 auto;padding:5px 8px}
+  .bank{border-top:2px solid var(--line);margin-top:8px;padding-top:8px}
+  .celebrate{background:linear-gradient(170deg,#58CC02,#43A800);color:#fff;flex:1;display:flex;
+             flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center}
+  .celebrate .big{font-size:34px}
+  .celebrate h3{font-size:13px;margin:8px 0 4px;letter-spacing:-.01em}
+  .celebrate p{font-size:8.5px;opacity:.92;line-height:1.4}
+  .xp{background:rgba(255,255,255,.22);border-radius:99px;padding:4px 12px;font-size:9px;font-weight:900;margin-top:10px}
+  .ctxbar{background:#FFF4D6;border:2px solid #FFDD7D;border-radius:9px;padding:6px 7px;font-size:8px;
+          font-weight:800;color:#A87900;margin-bottom:8px;line-height:1.35}
+
+  .wall{background:#fff;flex:1;display:flex;flex-direction:column;padding:12px}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;padding-top:16px;border-top:2px dashed var(--line);
+          font-size:12px;color:var(--ink-soft)}
+  .legend span{display:flex;align-items:center;gap:7px;font-weight:700}
+  .sw{width:13px;height:13px;border-radius:4px;border:3px solid}
+  .metric{display:inline-block;background:#F0F9E8;border:2px solid #C9EBA4;color:#3F8F00;
+          font-size:12px;font-weight:800;border-radius:8px;padding:4px 10px;margin:2px 6px 2px 0}
+  .metric.warn{background:#FFF1F1;border-color:#FFC9C9;color:#C33}
+  footer{margin-top:44px;font-size:12px;color:#9A9A9A;line-height:1.7;border-top:2px solid var(--line);padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Experiment ONB-2026-14 · Variant Mockups</div>
+  <h1>Lesson-First Onboarding</h1>
+  <p class="sub">Duolingo's largest measured onboarding win moved the <b>sign-up wall</b> behind the first lesson (~+20% DAU).
+  The same principle was never applied to the <b>intake questionnaire</b>, which still sits entirely in front of first value.
+  These three arms test whether it should be — and isolate whether the mechanism is <b>sequence</b> or simply <b>screen count</b>.</p>
+</header>
+<div id="app"></div>
+
+<div class="legend">
+  <span><i class="sw" style="border-color:#2B2B2B"></i> Intake screen</span>
+  <span><i class="sw" style="border-color:var(--gold)"></i> First value moment (lesson)</span>
+  <span><i class="sw" style="border-color:var(--green)"></i> Changed vs. control</span>
+</div>
+
+<footer>
+  Portfolio case study · mockups are illustrative reconstructions, not Duolingo assets.
+  Baseline rates and guardrail thresholds are modelled assumptions — see the experiment design doc, Appendix A.
+</footer>
+</div>
+
+<script>
+const bar = `<div class="bar"><span>9:41</span><span>▮▮▮ ▲ ▰</span></div>`;
+const prog = p => `<div class="prog"><span class="back">✕</span><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;
+
+function screen(o){
+  const cls = 'ph' + (o.hl?' hl':'') + (o.value?' value':'');
+  return `<div class="step"><div class="${cls}">${bar}${o.prog!=null?prog(o.prog):''}<div class="body">${o.body}</div></div>
+    <div class="caption"><span class="n">${o.n}</span>${o.cap}</div></div>`;
+}
+const opt = (e,t,sel) => `<div class="opt${sel?' sel':''}"><span class="em">${e}</span>${t}</div>`;
+const optm = (e,t,sel) => `<div class="opt mini${sel?' sel':''}"><span class="em">${e}</span>${t}</div>`;
+const cta = (t,c='') => `<div class="btn ${c}">${t}</div>`;
+
+/* ---- individual screens ---- */
+const S = {
+  source: p => ({n:p,cap:'Source',prog:8,body:`<div class="duo">🦉</div>
+    <div class="q ctr">How did you hear about Duolingo?</div>
+    ${opt('📺','TV')}${opt('👥','Friends / family')}${opt('🔍','Search')}${opt('📱','Social media')}${cta('Continue','gray')}`}),
+
+  lang: p => ({n:p,cap:'Language',prog:20,body:`<div class="q">I want to learn…</div>
+    ${opt('🇪🇸','Spanish',1)}${opt('🇫🇷','French')}${opt('🇯🇵','Japanese')}${opt('🇩🇪','German')}${opt('🇰🇷','Korean')}${cta('Continue')}`}),
+
+  langsrc: p => ({n:p,cap:'Language + source',hl:1,prog:16,body:`<div class="q">I want to learn…</div>
+    ${optm('🇪🇸','Spanish',1)}${optm('🇫🇷','French')}${optm('🇯🇵','Japanese')}
+    <div class="grp" style="margin-top:8px"><div class="lbl">How'd you hear about us?</div>
+    ${optm('📺','TV')}${optm('👥','Friends')}${optm('🔍','Search')}</div>${cta('Continue')}`}),
+
+  level: p => ({n:p,cap:'Level / placement',prog:34,body:`<div class="q">How much Spanish do you know?</div>
+    ${opt('🌱',"I'm new",1)}${opt('📖','Some words')}${opt('💬','Basic convos')}${opt('🎓','Most topics')}
+    <div class="ghost">Take placement test</div>${cta('Continue')}`}),
+
+  motive: p => ({n:p,cap:'Motivation',prog:52,body:`<div class="duo">🦉</div>
+    <div class="q ctr">Why are you learning Spanish?</div>
+    ${opt('✈️','Travel')}${opt('🧠','Brain training')}${opt('💼','Career')}${opt('👨‍👩‍👧','Family')}${cta('Continue','gray')}`}),
+
+  goal: p => ({n:p,cap:'Daily goal',prog:70,body:`<div class="q ctr">What's your daily goal?</div>
+    ${opt('🕐','Casual · 5 min')}${opt('🕑','Regular · 10 min')}${opt('🕒','Serious · 15 min')}${opt('🕓','Intense · 20 min')}${cta('Continue','gray')}`}),
+
+  notif: p => ({n:p,cap:'Notifications',prog:88,body:`<div class="duo">🔔</div>
+    <div class="q ctr">Turn on reminders to build a streak</div>
+    <p style="font-size:8.5px;color:#999;text-align:center;line-height:1.4">Learners with reminders are 3× more likely to stick with it.</p>
+    ${cta('Allow','blue')}<div class="ghost">Not now</div>`}),
+
+  combo: p => ({n:p,cap:'Motivation + goal + reminders',hl:1,prog:60,body:`<div class="q">Let's personalize your course</div>
+    <div class="grp"><div class="lbl">Why are you learning?</div>${optm('✈️','Travel',1)}${optm('💼','Career')}</div>
+    <div class="grp"><div class="lbl">Daily goal</div>${optm('🕐','5 min')}${optm('🕑','10 min',1)}</div>
+    <div class="grp"><div class="lbl">Reminders</div>${optm('🔔','Yes, remind me',1)}</div>${cta('Continue')}`}),
+
+  lesson: p => ({n:p,cap:'FIRST LESSON',value:1,body:`<div class="lesson">
+    <div class="hdr"><span class="back" style="color:#CFCFCF;font-weight:900">✕</span>
+      <div class="track" style="flex:1;height:7px;background:#EDEDED;border-radius:99px;overflow:hidden">
+        <div class="fill" style="width:30%;height:100%;background:var(--green);border-radius:99px"></div></div>
+      <span class="heart">♥ 5</span></div></div>
+    <div style="padding:2px 2px 0"><div class="q">Translate this sentence</div>
+    <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
+      <span style="font-size:20px">🐻</span>
+      <div style="border:2px solid var(--line);border-radius:9px;padding:5px 7px;font-size:9px;font-weight:800">el oso bebe agua</div></div>
+    <div class="tiles"><div class="word">the</div><div class="word">bear</div><div class="word">drinks</div></div>
+    <div class="bank"><div class="tiles">
+      <div class="word">water</div><div class="word">eats</div><div class="word">milk</div><div class="word">cat</div></div></div>
+    ${cta('Check')}</div>`}),
+
+  win: p => ({n:p,cap:'Lesson complete',value:1,body:`<div class="celebrate">
+    <div class="big">🎉</div><h3>Lesson 1 complete!</h3>
+    <p>You just learned your first 6 Spanish words.</p>
+    <div class="xp">+10 XP · 🔥 Day 1</div></div>`}),
+
+  goalPost: p => ({n:p,cap:'Daily goal (deferred)',hl:1,body:`<div style="padding:2px">
+    <div class="ctxbar">🔥 Nice work — your streak starts today. Let's set a pace you can keep.</div>
+    <div class="q">How often do you want to practice?</div>
+    ${opt('🕐','Casual · 5 min')}${opt('🕑','Regular · 10 min',1)}${opt('🕒','Serious · 15 min')}${cta('Set my goal')}</div>`}),
+
+  motivePost: p => ({n:p,cap:'Motivation (deferred)',hl:1,body:`<div style="padding:2px">
+    <div class="q">Nice start! What are you learning Spanish for?</div>
+    <p style="font-size:8px;color:#999;line-height:1.4;margin-bottom:8px">We'll tailor your lessons and Duo's encouragement to match.</p>
+    ${opt('✈️','Travel',1)}${opt('💼','Career')}${opt('🧠','Brain training')}${cta('Continue')}</div>`}),
+
+  notifPost: p => ({n:p,cap:'Reminders (deferred)',hl:1,body:`<div style="padding:2px">
+    <div class="ctxbar">🔥 You have a 1-day streak. Don't lose it.</div>
+    <div class="duo">🔔</div>
+    <div class="q ctr">Want a daily nudge at 7pm?</div>
+    <p style="font-size:8.5px;color:#999;text-align:center;line-height:1.4">Anchored to a streak that now exists — not a hypothetical one.</p>
+    ${cta('Keep my streak alive','blue')}<div class="ghost">Not now</div></div>`}),
+
+  wall: p => ({n:p,cap:'Soft sign-up wall',body:`<div class="wall">
+    <div class="duo">🦉</div><div class="q ctr">Save your progress?</div>
+    <p style="font-size:8.5px;color:#999;text-align:center;line-height:1.4;margin-bottom:9px">Create a free profile so you don't lose your streak and XP.</p>
+    ${cta('Create profile')}<div class="ghost">Maybe later</div></div>`})
+};
+
+const arms = [
+  {tag:'c',label:'Control',title:'Current flow — full intake before first value',
+   note:'<b>6 intake screens</b> stand between install and the first lesson. Every one of them asks for commitment from a user who has not yet experienced the product.',
+   metrics:['6 screens to value','0 screens deferred'],
+   steps:[S.source(1),S.lang(2),S.level(3),S.motive(4),S.goal(5),S.notif(6),S.lesson(7),S.win(8),S.wall(9)]},
+
+  {tag:'t1',label:'T1 · Lesson-First',title:'Defer motivation, goal and reminders until after lesson 1',
+   note:'Only the <b>two questions required to render a lesson</b> (language, level) stay in front. The rest move behind the first value moment and are reframed against progress the user has actually earned — the reminder prompt now protects a real streak, not a hypothetical one. <b>This is the arm under test.</b>',
+   metrics:['2 screens to value','3 screens deferred','↓ 67% pre-value friction'],
+   steps:[S.lang(1),S.level(2),S.lesson(3),S.win(4),S.motivePost(5),S.goalPost(6),S.notifPost(7),S.wall(8)]},
+
+  {tag:'t2',label:'T2 · Compressed',title:'Same content, same position — consolidated to 3 screens',
+   note:'The mechanism control. Sequence is held constant; only <b>screen count</b> changes. If T1 wins and T2 stays flat, the driver is sequence and the insight generalizes. If both win equally, the driver is friction — and T2 ships for a fraction of the engineering cost.',
+   metrics:['3 screens to value','0 screens deferred'],
+   steps:[S.langsrc(1),S.level(2),S.combo(3),S.lesson(4),S.win(5),S.wall(6)]}
+];
+
+document.getElementById('app').innerHTML = arms.map(a=>`
+  <section class="arm">
+    <div class="arm-head"><span class="tag ${a.tag}">${a.label}</span><h2>${a.title}</h2></div>
+    <p class="note">${a.note}</p>
+    <div>${a.metrics.map(m=>`<span class="metric">${m}</span>`).join('')}</div>
+    <div class="rail" style="margin-top:14px">
+      ${a.steps.map(screen).join('<div class="arrow">›</div>')}
+    </div>
+  </section>`).join('');
+</script>
+</body>
+</html>

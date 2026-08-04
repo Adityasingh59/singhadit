@@ -1,0 +1,55 @@
+---
+/** Insurance — the real deliverable wasn't the chart, it was the agreed definitions. */
+const kpis = [
+  ['01', 'Claims throughput', 'settled ÷ open-days'],
+  ['02', 'Cycle time', 'p50 intake → payout'],
+  ['03', 'Risk exposure', 'Σ reserve × severity'],
+  ['04', 'Churn signal', 'lapse ÷ renewal window'],
+  ['05', 'Leakage', 'paid − assessed'],
+  ['06', 'First-contact rate', 'resolved ÷ contacts'],
+  ['07', 'Reopen rate', 'reopened ÷ settled'],
+  ['08', 'Sentiment risk', 'TF-IDF neg. share'],
+];
+---
+<svg viewBox="0 0 420 270" role="img" aria-label="The eight-KPI operational framework with agreed formulas, replacing an ad-hoc reporting queue with a self-serve model.">
+  <g fill="none" stroke-width="1">
+    <text class="lbl" x="0" y="10">OPERATING DEFINITIONS — AGREED WITH STAKEHOLDERS BEFORE ANY CHART</text>
+    <line class="strong" x1="0" y1="18" x2="420" y2="18" />
+    <text class="lbl" x="0" y="30">#</text>
+    <text class="lbl" x="24" y="30">METRIC</text>
+    <text class="lbl" x="210" y="30">FORMULA</text>
+    <line class="strong" x1="0" y1="36" x2="420" y2="36" />
+
+    {kpis.map((k, i) => (
+      <>
+        <text class="mono sig" x="0" y={52 + i * 18}>{k[0]}</text>
+        <text class="mono strong-fill" x="24" y={52 + i * 18}>{k[1]}</text>
+        <text class="mono" x="210" y={52 + i * 18}>{k[2]}</text>
+        <line class="rule" x1="0" y1={58 + i * 18} x2="420" y2={58 + i * 18} />
+      </>
+    ))}
+
+    <!-- before / after -->
+    <text class="lbl" x="0" y="212">REPORTING LOAD — BEFORE / AFTER SELF-SERVE</text>
+    <line class="rule" x1="0" y1="220" x2="420" y2="220" />
+
+    <text class="lbl" x="0" y="236">AD-HOC</text>
+    <rect class="rule-fill" x="52" y="228" width="300" height="9" />
+    <text class="mono" x="360" y="236">100%</text>
+
+    <text class="lbl" x="0" y="256">SELF-SERVE</text>
+    <rect class="sig-fill" x="52" y="248" width="180" height="9" />
+    <text class="mono sig" x="360" y="256">−40%</text>
+  </g>
+</svg>
+
+<style>
+  .lbl { font-family: var(--mono); font-size: 6px; letter-spacing: 0.09em; fill: var(--ink-3); }
+  .mono { font-family: var(--mono); font-size: 7.5px; fill: var(--ink-2); }
+  .strong-fill { fill: var(--ink); }
+  .sig { fill: var(--signal); }
+  .rule { stroke: var(--rule); }
+  .strong { stroke: var(--ink-3); }
+  .rule-fill { fill: var(--rule); stroke: none; }
+  .sig-fill { fill: var(--signal); stroke: none; }
+</style>

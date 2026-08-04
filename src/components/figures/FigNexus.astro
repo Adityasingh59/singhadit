@@ -1,0 +1,93 @@
+---
+/**
+ * NexusIMS architecture — drawn from the actual repo:
+ * 13 SQLAlchemy models, 23 API endpoint groups, a module marketplace
+ * (module_installs w/ TRIGGER|ACTION extension types + scoped permissions),
+ * all under a tenant boundary. Thesis: rigid core, flexible edge.
+ */
+---
+<svg viewBox="0 0 420 320" role="img" aria-label="NexusIMS architecture: a rigid transactional core inside a tenant boundary, extended by installable modules through trigger and action hooks.">
+  <defs>
+    <marker id="nx-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="var(--signal)" />
+    </marker>
+  </defs>
+
+  <g class="nx" fill="none" stroke="currentColor" stroke-width="1">
+    <!-- API surface -->
+    <text class="lbl" x="0" y="10">API V1 — 23 ENDPOINT GROUPS</text>
+    <g class="rule">
+      {Array.from({ length: 23 }).map((_, i) => (
+        <line x1={2 + i * 8} y1="18" x2={2 + i * 8} y2="27" />
+      ))}
+    </g>
+    <line class="rule" x1="0" y1="32" x2="420" y2="32" />
+
+    <!-- tenant boundary -->
+    <rect class="dash" x="0.5" y="46.5" width="419" height="220" stroke-dasharray="3 3" />
+    <text class="lbl sig" x="6" y="42">TENANT BOUNDARY — ROW-LEVEL ISOLATION</text>
+
+    <!-- rbac strip -->
+    <rect class="rule" x="12.5" y="58.5" width="395" height="20" />
+    <text class="lbl" x="18" y="72">RBAC · API KEYS · SCOPED PERMISSIONS</text>
+
+    <!-- rigid core -->
+    <rect class="solid" x="12.5" y="92.5" width="240" height="132" />
+    <text class="lbl sig" x="18" y="106">RIGID CORE — IMMUTABLE LEDGER</text>
+    <line class="rule" x1="12.5" y1="112" x2="252.5" y2="112" />
+
+    <!-- core models grid -->
+    {[
+      ['sku', 'item_type', 'bom'],
+      ['warehouse', 'location', 'assembly'],
+      ['serial', 'purchase_order', 'sales_order'],
+      ['ledger', 'cogs', 'audit'],
+    ].map((row, r) =>
+      row.map((m, c) => (
+        <>
+          <rect class="rule" x={20 + c * 78} y={122 + r * 25} width={72} height={18} />
+          <text class="mono" x={24 + c * 78} y={134 + r * 25}>{m}</text>
+        </>
+      ))
+    )}
+
+    <!-- module marketplace -->
+    <rect class="solid" x="272.5" y="92.5" width="135" height="132" />
+    <text class="lbl sig" x="278" y="106">MODULE MARKETPLACE</text>
+    <line class="rule" x1="272.5" y1="112" x2="407.5" y2="112" />
+
+    {['expiry_tracker', 'serial_numbers', 'custom_module'].map((m, i) => (
+      <>
+        <rect class="rule" x="280" y={122 + i * 26} width="120" height="19" stroke-dasharray={i === 2 ? '2 2' : '0'} />
+        <text class="mono" x="285" y={135 + i * 26}>{m}</text>
+      </>
+    ))}
+    <text class="lbl" x="280" y="212">TRIGGER · ACTION</text>
+
+    <!-- hooks: modules extend the core without touching it -->
+    <g class="sig-stroke" marker-end="url(#nx-arrow)">
+      <path d="M280 131 L258 131" />
+      <path d="M280 157 L258 157" />
+    </g>
+    <text class="mono sig" x="256" y="185" text-anchor="end">hooks</text>
+
+    <!-- infra -->
+    <line class="rule" x1="0" y1="280" x2="420" y2="280" />
+    <text class="lbl" x="0" y="296">POSTGRESQL 16</text>
+    <text class="lbl" x="112" y="296">REDIS 7</text>
+    <text class="lbl" x="188" y="296">CELERY 5</text>
+    <text class="lbl" x="268" y="296">FASTAPI · ASYNC</text>
+    <text class="lbl" x="380" y="296">NGINX</text>
+  </g>
+</svg>
+
+<style>
+  svg { color: var(--ink-3); }
+  .lbl { font-family: var(--mono); font-size: 6px; letter-spacing: 0.09em; fill: var(--ink-3); stroke: none; }
+  .mono { font-family: var(--mono); font-size: 6.5px; fill: var(--ink-2); stroke: none; }
+  .sig { fill: var(--signal); }
+  .rule { stroke: var(--rule); }
+  .solid { stroke: var(--ink-3); }
+  .dash { stroke: var(--signal); opacity: 0.55; }
+  .sig-stroke { stroke: var(--signal); }
+</style>

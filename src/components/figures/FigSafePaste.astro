@@ -1,0 +1,58 @@
+---
+/** SafePaste — the interception itself: clipboard in, redacted out, on-device, under budget. */
+---
+<svg viewBox="0 0 420 260" role="img" aria-label="SafePaste intercepts a clipboard paste, redacts sensitive spans on-device in under 500 milliseconds, and passes safe text to the AI tool.">
+  <defs>
+    <marker id="sp-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="var(--signal)" />
+    </marker>
+  </defs>
+  <g fill="none" stroke-width="1">
+    <!-- input -->
+    <text class="lbl" x="0" y="10">CLIPBOARD — RAW</text>
+    <rect class="rule" x="0.5" y="18.5" width="419" height="46" />
+    <text class="mono" x="8" y="34">deploy key sk_live_4f9a2c8e1b7d ↵</text>
+    <text class="mono" x="8" y="48">contact priya.n@acme.co · +1 415 555 0148</text>
+    <text class="mono" x="8" y="60">card 4024 0071 8392 1145</text>
+    <!-- detection marks -->
+    <g class="sig-stroke">
+      <rect x="59" y="26" width="86" height="11" />
+      <rect x="45" y="40" width="76" height="11" />
+      <rect x="163" y="40" width="76" height="11" />
+      <rect x="31" y="52" width="98" height="11" />
+    </g>
+
+    <line class="sig-stroke" x1="210" y1="64" x2="210" y2="86" marker-end="url(#sp-arrow)" />
+
+    <!-- engine -->
+    <rect class="solid" x="60.5" y="90.5" width="299" height="52" />
+    <text class="lbl sig" x="68" y="104">ON-DEVICE ENGINE — ZERO NETWORK CALLS</text>
+    <line class="rule" x1="60.5" y1="110" x2="359.5" y2="110" />
+    <text class="mono" x="68" y="124">regex ∙ ruleset</text>
+    <text class="mono" x="168" y="124">NLP classifier</text>
+    <text class="mono" x="272" y="124">redactor</text>
+    <text class="lbl" x="68" y="136">15+ TYPES · 95%+ ACCURACY · BUDGET &lt;500MS</text>
+
+    <line class="sig-stroke" x1="210" y1="142" x2="210" y2="164" marker-end="url(#sp-arrow)" />
+
+    <!-- output -->
+    <text class="lbl" x="0" y="176">PASTED TO CHATGPT / CLAUDE / GEMINI — SAFE</text>
+    <rect class="rule" x="0.5" y="184.5" width="419" height="46" />
+    <text class="mono" x="8" y="200">deploy key <tspan class="red">[REDACTED:API_KEY]</tspan> ↵</text>
+    <text class="mono" x="8" y="214">contact <tspan class="red">[REDACTED:EMAIL]</tspan> · <tspan class="red">[REDACTED:PHONE]</tspan></text>
+    <text class="mono" x="8" y="226">card <tspan class="red">[REDACTED:PAN]</tspan></text>
+
+    <line class="rule" x1="0" y1="246" x2="420" y2="246" />
+    <text class="lbl" x="0" y="258">NOTHING LEAVES THE MACHINE</text>
+  </g>
+</svg>
+
+<style>
+  .lbl { font-family: var(--mono); font-size: 6px; letter-spacing: 0.09em; fill: var(--ink-3); }
+  .mono { font-family: var(--mono); font-size: 7px; fill: var(--ink-2); }
+  .red { fill: var(--signal); }
+  .sig { fill: var(--signal); }
+  .rule { stroke: var(--rule); }
+  .solid { stroke: var(--ink-3); }
+  .sig-stroke { stroke: var(--signal); fill: none; }
+</style>

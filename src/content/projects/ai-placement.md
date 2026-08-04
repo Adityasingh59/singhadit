@@ -4,7 +4,7 @@ tagline: Led a four-person team as Product Lead to cut manual resume screening b
 summary: Product Lead on a 4-person team. Authored the PRD with RICE-prioritized features and integrated Gemini-Pro NLP for resume screening — 60% less manual effort, validated across 12 UAT cases with 100% defect resolution pre-launch.
 category: AI · Education Tech
 year: "2024"
-order: 3
+order: 4
 featured: false
 emoji: "🤖"
 visual: v-placement

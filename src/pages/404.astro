@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Page not found — Aditya Singh" description="That page doesn’t exist.">
-  <section class="section" style="min-height:70vh;display:grid;place-items:center;text-align:center">
-    <div class="inner">
-      <div class="eyebrow eyebrow--center">404</div>
-      <h1 class="h2">This page took an <em>unplanned pivot.</em></h1>
-      <p class="lead" style="margin:0 auto 2rem">The page you’re looking for doesn’t exist — or has shipped elsewhere.</p>
-      <a href="/" class="btn">← Back home</a>
-    </div>
+<Base title="404 — Aditya Singh" description="No such page.">
+  <section class="wrap" style="padding-block: clamp(4rem, 14vh, 9rem)">
+    <span class="meta signal">Error 404</span>
+    <h1 class="display" style="margin: 1rem 0">No such page.</h1>
+    <p class="body-lg" style="margin-bottom: 2rem">
+      The address is wrong, or the thing that lived here has been cut. Both happen.
+    </p>
+    <a href="/" class="btn btn--signal">← Back to index</a>
   </section>
 </Base>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson-First Onboarding — Experiment Design Doc · Aditya Singh</title>
+<meta name="description" content="Full experiment design: hypothesis, metric tree, power analysis, guardrails and pre-committed decision rules for a three-arm test on Duolingo's onboarding.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F2A;--bg:#F8F9FA;--surface:#fff;--text:#0B1F2A;--text-mid:#2D4A5A;--text-muted:#5A7A8A;
+--border:#D5E4EC;--accent:#C97A2B;--accent-soft:#F4A261;
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono','SF Mono',monospace;}
+@media (prefers-color-scheme:dark){:root{--bg:#081319;--surface:#11262F;--text:#EAF1F4;--text-mid:#AEC6D1;
+--text-muted:#7593A1;--border:rgba(255,255,255,.10);--accent:#F4A261;}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:3rem 1.5rem 6rem}
+.back{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+color:var(--accent);text-decoration:none;margin-bottom:2.5rem}
+.back:hover{text-decoration:underline}
+h1{font-family:var(--serif);font-size:clamp(2.1rem,5vw,3rem);font-weight:700;line-height:1.12;
+letter-spacing:-.01em;margin:.4rem 0 1.6rem}
+h2{font-family:var(--serif);font-size:1.9rem;font-weight:700;margin:3.2rem 0 1rem;line-height:1.2;
+padding-top:1.6rem;border-top:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:700;margin:2rem 0 .6rem;letter-spacing:.01em}
+p{margin:0 0 1.1rem;color:var(--text-mid)}
+strong{color:var(--text);font-weight:700}
+ul,ol{margin:0 0 1.2rem 1.3rem;color:var(--text-mid)} li{margin-bottom:.45rem}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.87em;background:var(--surface);border:1px solid var(--border);
+padding:.1rem .38rem;border-radius:5px}
+blockquote{border-left:3px solid var(--accent-soft);padding:.3rem 0 .3rem 1.3rem;margin:1.6rem 0;
+font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--text)}
+blockquote p{color:inherit;margin:0}
+table{width:100%;border-collapse:collapse;margin:1.4rem 0 2rem;font-size:.88rem}
+th,td{text-align:left;padding:.7rem .85rem;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-mid)}
+th{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);
+border-bottom:2px solid var(--border);white-space:nowrap}
+tbody tr:hover{background:var(--surface)}
+hr{border:0;border-top:1px solid var(--border);margin:3rem 0}
+blockquote:first-of-type{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent-soft);
+border-radius:12px;padding:1.1rem 1.4rem;font-family:var(--sans);font-size:.9rem;font-style:normal;color:var(--text-mid)}
+footer{margin-top:4rem;padding-top:1.6rem;border-top:1px solid var(--border);font-size:.82rem;color:var(--text-muted)}
+footer a{font-weight:600}
+</style></head><body><div class="wrap">
+<a class="back" href="/work/duolingo-onboarding">← Back to the case study</a>
+<h1>Experiment Design: Lesson-First Onboarding</h1>
+<p><strong>Test ID:</strong> ONB-2026-14 · <strong>Owner:</strong> Aditya · <strong>Status:</strong> Proposed · <strong>Date:</strong> August 2026</p>
+<blockquote>
+<p>⚠️ <strong>Portfolio case study.</strong> Public figures are cited and sourced. Baseline rates, guardrail thresholds, and results are modelled assumptions — Duolingo does not publish funnel-level data. Assumptions are flagged inline and listed in Appendix A.</p>
+</blockquote>
+<hr />
+<h2>1. Why this test</h2>
+<p>Duolingo's single largest measured onboarding win was <strong>moving the sign-up wall behind the first lesson — roughly +20% DAU</strong>. The principle it proved: <em>deliver value before you ask for commitment.</em></p>
+<p>That principle was applied to the account wall. <strong>It was never applied to the questionnaire.</strong></p>
+<p>Today a new install still answers a full intake sequence — how did you hear about us, which language, current level, why are you learning, daily time goal, notification permission — <strong>before completing a single exercise.</strong> Teardowns of the current flow count roughly 15 pre-lesson screens (up to 38 including the extended onboarding sequence).</p>
+<p>So the flow contains an unresolved contradiction:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sign-up wall</th>
+<th>Intake questionnaire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asks for commitment</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Positioned after first value</td>
+<td>✅ (tested, +20% DAU)</td>
+<td>❌ (never tested)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The opportunity:</strong> the largest remaining block of pre-value friction in the funnel is the one piece of it that has never been subjected to the company's own most successful design principle.</p>
+<p><strong>The reason it isn't obvious:</strong> the intake screens are not pure friction. They produce three assets that compound — a stated daily goal (commitment device), a notification opt-in (Duolingo's own tests put optimized notification copy at <strong>+5% DAU</strong>), and a stated motivation that feeds personalized coaching copy (<strong>+7.2% D14</strong> in their growth-mindset copy test). Stripping them out could buy activation and pay for it in retention infrastructure.</p>
+<p>That trade-off is real and un-guessable. It is exactly what an experiment is for.</p>
+<hr />
+<h2>2. Hypothesis</h2>
+<blockquote>
+<p><strong>If</strong> we move motivation, daily-goal, and notification-permission screens from <em>before</em> the first lesson to <em>immediately after</em> it, <strong>then</strong> Day-7 retention among new installs will increase, <strong>because</strong> each pre-value screen imposes drop-off on users who have not yet experienced the product, while the same questions asked at the moment of completed progress benefit from the endowed-progress effect — the user answers with something invested rather than nothing.</p>
+</blockquote>
+<p><strong>Falsifiable counter-hypothesis:</strong> deferred goal-setting and notification prompts convert at a materially lower rate, and the loss of those two retention levers outweighs the activation gain by D14. This is the outcome the guardrails are designed to catch.</p>
+<hr />
+<h2>3. Variants</h2>
+<p>Randomization is 3-way, equal allocation, on <strong>new installs only</strong>.</p>
+<h3>Control — current flow</h3>
+<pre><code>Source → Language → Level/Placement → Motivation → Daily goal → Notifications → LESSON 1 → Soft sign-up wall
+</code></pre>
+<p>6 intake screens before first value.</p>
+<h3>T1 — "Lesson-First" (the treatment under test)</h3>
+<pre><code>Language → Level/Placement → LESSON 1 → &quot;Personalize your plan&quot; (Motivation → Daily goal → Notifications) → Soft sign-up wall
+</code></pre>
+<p>2 intake screens before first value. The deferred screens are reframed at the point of delivery — the daily-goal screen opens on the user's just-earned first XP, and the notification prompt is anchored to protecting a streak that now exists rather than one that is hypothetical.</p>
+<h3>T2 — "Compressed" (the mechanism control)</h3>
+<pre><code>Source+Language → Level/Placement → Motivation+Daily goal+Notifications → LESSON 1 → Soft sign-up wall
+</code></pre>
+<p>Same content, same position as Control, consolidated from 6 screens to 3 via multi-select and combined layouts.</p>
+<p><strong>Why T2 exists.</strong> Without it, a T1 win is uninterpretable — it could be caused by <em>sequence</em> (value before commitment) or simply by <em>fewer taps</em>. T2 holds sequence constant and varies only screen count:</p>
+<ul>
+<li>T1 wins, T2 flat → the mechanism is <strong>sequence</strong>. Ship T1; the insight generalizes to every other pre-value ask in the product.</li>
+<li>T1 ≈ T2, both win → the mechanism is <strong>screen count</strong>. Ship T2 — same lift, far cheaper, no re-plumbing of the personalization pipeline.</li>
+<li>Both flat → intake friction is not the constraint. Redirect to the web→app handoff.</li>
+</ul>
+<p>This arm is the difference between shipping a screen and learning a principle.</p>
+<hr />
+<h2>4. Metrics</h2>
+<h3>Primary</h3>
+<p><strong>D7 retention</strong> — % of new installs that complete ≥1 lesson on any day within days 5–7 post-install.</p>
+<p><em>Why not lesson-1 completion?</em> T1 mechanically raises it by removing screens in front of it — it would go up even if the change were worthless. It is a leading indicator, not a decision metric. <em>Why not D14?</em> D14 is the better proxy for durable habit, but doubles readout time; it runs as the confirmatory secondary before full rollout.</p>
+<h3>Leading indicators (read at 48h, directional only, no ship authority)</h3>
+<ul>
+<li>Onboarding completion rate (% reaching lesson 1)</li>
+<li>Lesson-1 completion rate</li>
+<li>Time-to-first-lesson (median, p90)</li>
+<li>D1 retention</li>
+</ul>
+<h3>Secondary</h3>
+<ul>
+<li><strong>D14 retention</strong> — confirmatory; must not regress</li>
+<li>3-day streak attainment rate</li>
+<li>Lessons completed in week 1 (mean, capped at p99)</li>
+<li>Week-1 Super trial starts</li>
+</ul>
+<h3>Guardrails (non-inferiority, margin <strong>−1.0% relative</strong>)</h3>
+<table>
+<thead>
+<tr>
+<th>Guardrail</th>
+<th>Why it's here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account creation rate within 7d</td>
+<td>Deferring intake shifts sign-up wall timing; protects the funnel's most valuable conversion</td>
+</tr>
+<tr>
+<td><strong>Notification opt-in rate</strong></td>
+<td><strong>Highest-risk metric.</strong> Notifications are a proven +5% DAU lever; T1 moves the prompt to a new context</td>
+</tr>
+<tr>
+<td>Daily-goal set rate within 7d</td>
+<td>Goal-setting is a commitment device; a large drop undermines the long-run retention story</td>
+</tr>
+<tr>
+<td>Placement-test → course-switch rate within 7d</td>
+<td>Detects mis-levelled users routed into the wrong course</td>
+</tr>
+<tr>
+<td>Onboarding-stage crash / error rate</td>
+<td>Standard release guardrail</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Explicit policy:</strong> consistent with the company's stated principle — <em>a change that increases subscription revenue but decreases daily engagement does not ship</em> — a positive Super-trial result will not override a negative D7 result.</p>
+<hr />
+<h2>5. Design</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit of randomization</td>
+<td>Anonymous install/device ID, assigned at first app open</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>33.3 / 33.3 / 33.3</td>
+</tr>
+<tr>
+<td>Population</td>
+<td>New installs, iOS + Android, English UI, US/UK/CA/AU</td>
+</tr>
+<tr>
+<td>Exclusions</td>
+<td>Reinstalls (prior install ID on device), users entering via a shared-link deep flow, existing accounts logging in</td>
+</tr>
+<tr>
+<td>Enrollment window</td>
+<td>7 days (full weekly cycle — weekday and weekend intent differ)</td>
+</tr>
+<tr>
+<td>Observation window</td>
+<td>+7 days for primary, +14 for confirmatory secondary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Identity stitching — the failure mode to design around.</strong> Assignment happens pre-account, on an anonymous ID. When the user later creates an account, the anonymous ID must be merged into the authenticated user ID <em>with the bucket assignment carried across.</em> If that merge drops the assignment, every post-sign-up metric silently becomes unattributable and the experiment is unreadable. This is a pre-launch QA gate, not a nice-to-have.</p>
+<p><strong>Seasonality.</strong> January is the peak install month and draws a measurably different intent mix (resolution-driven, higher initial motivation, steeper drop-off). Do not run in the first three weeks of January or the last week of December.</p>
+<p><strong>Novelty/primacy effects: not applicable.</strong> The population is new installs with no prior exposure to the control flow, so there is no baseline experience to be disrupted or delighted by change. This is a genuine advantage of testing onboarding over testing in-product features.</p>
+<hr />
+<h2>6. Power analysis</h2>
+<p>Assumptions: baseline D7 retention <strong>22%</strong> (Appendix A), α = 0.05 two-sided, Bonferroni-corrected to <strong>α = 0.025</strong> for two treatment-vs-control comparisons, power = 80%.</p>
+<p><strong>Sample required, by minimum detectable effect:</strong></p>
+<table>
+<thead>
+<tr>
+<th>MDE (relative)</th>
+<th>MDE (absolute)</th>
+<th>n per arm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0%</td>
+<td>0.22pp</td>
+<td>676,404</td>
+</tr>
+<tr>
+<td>1.5%</td>
+<td>0.33pp</td>
+<td>301,157</td>
+</tr>
+<tr>
+<td><strong>2.0%</strong></td>
+<td><strong>0.44pp</strong></td>
+<td><strong>169,700</strong></td>
+</tr>
+<tr>
+<td>3.0%</td>
+<td>0.66pp</td>
+<td>75,686</td>
+</tr>
+<tr>
+<td>4.0%</td>
+<td>0.88pp</td>
+<td>42,721</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Available traffic.</strong> Duolingo runs roughly <strong>400,000 installs/day</strong> globally in 2026. The scoped population (English UI, four markets) is assumed at ~25% → <strong>~100,000/day</strong>, or ~33,300 per arm per day.</p>
+<p><strong>A 7-day enrollment window yields 233,333 per arm</strong>, which delivers:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Achieved MDE @ 80% power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>D7 retention (primary)</strong></td>
+<td>22.0%</td>
+<td><strong>0.375pp / 1.70% rel</strong></td>
+</tr>
+<tr>
+<td>D14 retention</td>
+<td>14.5%</td>
+<td>0.319pp / 2.20% rel</td>
+</tr>
+<tr>
+<td>Lesson-1 completion</td>
+<td>60.0%</td>
+<td>0.442pp / 0.74% rel</td>
+</tr>
+<tr>
+<td>Account creation w/in 7d</td>
+<td>45.0%</td>
+<td>0.449pp / 1.00% rel</td>
+</tr>
+<tr>
+<td>Notification opt-in</td>
+<td>62.0%</td>
+<td>0.438pp / 0.71% rel</td>
+</tr>
+<tr>
+<td>Daily-goal set w/in 7d</td>
+<td>55.0%</td>
+<td>0.449pp / 0.82% rel</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Timeline:</strong> 7 days enrollment → 7 days maturation → <strong>primary readout day 14</strong> → D14 confirmatory readout day 21.</p>
+<p>Sensitivity is comfortably inside the range where Duolingo's own onboarding tests have landed (+2–4% on retention metrics), and each guardrail is powered to its −1.0% non-inferiority margin.</p>
+<hr />
+<h2>7. Analysis plan</h2>
+<ol>
+<li><strong>SRM check first.</strong> χ² on observed vs expected allocation. p &lt; 0.001 → halt and debug before reading anything else. A sample-ratio mismatch in a pre-account experiment usually means the identity stitch is broken.</li>
+<li><strong>Primary:</strong> two-proportion z-test, T1 vs C and T2 vs C, Bonferroni α = 0.025. Report absolute lift, relative lift, and 95% CI — the CI, not the p-value, is what goes in the ship recommendation.</li>
+<li><strong>No peeking for decisions.</strong> Leading indicators are monitored at 48h for <em>breakage only</em> (crash rate, SRM, catastrophic funnel collapse). The primary is read once, at day 14. If continuous monitoring is required by the release process, use an always-valid sequential boundary (mSPRT) rather than repeated fixed-horizon tests.</li>
+<li><strong>Guardrails:</strong> one-sided non-inferiority test against the −1.0% relative margin.</li>
+<li><strong>Pre-registered segments only</strong> — platform (iOS/Android), acquisition source (organic/paid), self-reported level (beginner/experienced), market. Any effect found outside this list is a hypothesis for the next test, not a result from this one.</li>
+<li><strong>Heterogeneity call-out:</strong> the beginner segment is the one to watch. Experienced learners routed to the placement test may value pre-lesson personalization more than absolute beginners do, and a null average could be masking opposing effects.</li>
+</ol>
+<hr />
+<h2>8. Decision rules</h2>
+<p>Pre-committed before launch.</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D7 lift ≥ +1.7% rel, p &lt; 0.025, all guardrails pass</td>
+<td><strong>Ship</strong> the winning arm. Ramp 10% → 50% → 100% over 2 weeks with holdback.</td>
+</tr>
+<tr>
+<td>D7 positive <strong>but</strong> notification opt-in breaches −1.0%</td>
+<td><strong>Hold.</strong> Extend to D14/D28 readout. If the deficit compounds, iterate on the deferred prompt's framing and re-test rather than ship.</td>
+</tr>
+<tr>
+<td>T1 and T2 statistically indistinguishable, both positive</td>
+<td><strong>Ship T2.</strong> Same outcome, materially lower engineering cost and no personalization re-plumbing.</td>
+</tr>
+<tr>
+<td>D7 flat (CI contains zero, upper bound &lt; +1.7%)</td>
+<td><strong>Do not ship.</strong> Intake friction is not the binding constraint. Redirect the next cycle to the web→app handoff.</td>
+</tr>
+<tr>
+<td>D7 negative</td>
+<td><strong>Kill.</strong> Document that pre-lesson personalization is load-bearing — a genuinely valuable negative result.</td>
+</tr>
+<tr>
+<td>Super-trial starts up, D7 down</td>
+<td><strong>Do not ship,</strong> per the engagement-over-revenue principle.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Holdback:</strong> retain a 1% permanent holdback on the control flow for 90 days to measure whether the effect decays.</p>
+<hr />
+<h2>9. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity stitch drops bucket assignment at sign-up</td>
+<td>Med</td>
+<td>Pre-launch QA gate; SRM monitored daily</td>
+</tr>
+<tr>
+<td>Notification opt-in falls sharply in T1</td>
+<td>Med</td>
+<td>Explicit guardrail; framing anchored to the streak the user just earned</td>
+</tr>
+<tr>
+<td>Post-lesson personalization screens feel like an interruption at the moment of success</td>
+<td>Med</td>
+<td>Screens presented as reward framing ("nice work — let's set your pace"), skippable, re-prompted at lesson 3</td>
+</tr>
+<tr>
+<td>Users mis-levelled without the pre-lesson motivation context</td>
+<td>Low</td>
+<td>Course-switch rate guardrail</td>
+</tr>
+<tr>
+<td>Interaction with concurrently running onboarding tests</td>
+<td>Med</td>
+<td>Mutually exclusive experiment layer for the onboarding surface</td>
+</tr>
+<tr>
+<td>Activation gain is real but attracts lower-intent users who churn by D30</td>
+<td>Med</td>
+<td>90-day holdback; D28 read before declaring the win durable</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>10. What this unlocks next</h2>
+<ul>
+<li><strong>If sequence is the mechanism (T1 wins, T2 flat):</strong> the principle generalizes. Audit every remaining pre-value ask in the product against it.</li>
+<li><strong>If screen count is the mechanism (T1 ≈ T2):</strong> the lever is friction, not psychology. The next test is progressive disclosure across the whole funnel.</li>
+<li><strong>Follow-on regardless of outcome:</strong> personalize <em>which</em> intake questions appear based on acquisition source — paid-social installs and organic search installs arrive with different amounts of context, and asking both cohorts the same six questions is almost certainly leaving something on the table.</li>
+</ul>
+<hr />
+<h2>Appendix A — Assumptions and sources</h2>
+<p><strong>Sourced (public):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DAU, Q1 2026</td>
+<td>56.5M (+21% YoY)</td>
+<td>Duolingo Q1 2026 earnings</td>
+</tr>
+<tr>
+<td>MAU, Q1 2026</td>
+<td>137.8M</td>
+<td>Duolingo Q1 2026 earnings</td>
+</tr>
+<tr>
+<td>Paid subscribers</td>
+<td>12.5M (+21% YoY)</td>
+<td>Duolingo Q1 2026 earnings</td>
+</tr>
+<tr>
+<td>Revenue, Q1 2026</td>
+<td>$292.0M (+27% YoY)</td>
+<td>Duolingo Q1 2026 10-Q</td>
+</tr>
+<tr>
+<td>Global daily installs, 2026</td>
+<td>~400,000</td>
+<td>Business of Apps</td>
+</tr>
+<tr>
+<td>Delayed sign-up test result</td>
+<td>~+20% DAU</td>
+<td>First Round Review / Taplytics</td>
+</tr>
+<tr>
+<td>Notification copy optimization</td>
+<td>+5% DAU</td>
+<td>Econsultancy</td>
+</tr>
+<tr>
+<td>Growth-mindset coach copy</td>
+<td>+7.2% D14</td>
+<td>Econsultancy</td>
+</tr>
+<tr>
+<td>Weekend Amulet</td>
+<td>+2.1% D7, +4% D14</td>
+<td>Econsultancy</td>
+</tr>
+<tr>
+<td>Experiment velocity</td>
+<td>300+/quarter, 20–80 concurrent</td>
+<td>Relaunch teardown</td>
+</tr>
+<tr>
+<td>Pre-lesson intake screen count</td>
+<td>~15 (38 incl. extended sequence)</td>
+<td>Tasu.ai / Mobbin flow captures</td>
+</tr>
+<tr>
+<td>Mobile app D7 retention, all categories</td>
+<td>11–13%</td>
+<td>Business of Apps</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Modelled (not public — stated for the power analysis):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Assumption</th>
+<th>Value</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline D7 retention, new installs</td>
+<td>22%</td>
+<td>Set above the 11–13% all-app benchmark; Duolingo is a best-in-class retention outlier</td>
+</tr>
+<tr>
+<td>Baseline D14 retention</td>
+<td>14.5%</td>
+<td>~2/3 of D7, typical decay shape</td>
+</tr>
+<tr>
+<td>Lesson-1 completion</td>
+<td>60%</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>Account creation within 7d</td>
+<td>45%</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>Notification opt-in</td>
+<td>62%</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>Daily-goal set within 7d</td>
+<td>55%</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>English-UI share of the 4 target markets</td>
+<td>25% of global installs</td>
+<td>Assumption</td>
+</tr>
+</tbody>
+</table>
+<p>Every figure in §6 is reproducible from these inputs with a two-proportion power calculation at α = 0.025, power = 0.80.</p>
+<footer>Portfolio case study by <a href="/">Aditya Singh</a> · <a href="/work/duolingo-onboarding">Read the case study</a></footer>
+</div></body></html>

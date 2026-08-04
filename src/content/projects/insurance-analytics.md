@@ -4,7 +4,7 @@ tagline: Turned scattered insurance operations data into a self-serve dashboard 
 summary: Defined an 8-KPI operational framework (claims throughput, risk exposure, churn signal) and built a self-serve Power BI dashboard with an NLP sentiment pipeline across 500+ records to surface risk signals in real time.
 category: Data Product · Analytics
 year: "2024"
-order: 4
+order: 5
 featured: false
 emoji: "📊"
 visual: v-insurance

@@ -1,260 +1,261 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import heroPortrait from '../assets/aditya-hero.jpg';
 import Base from '../layouts/Base.astro';
+import FigNexus from '../components/figures/FigNexus.astro';
+import FigSafePaste from '../components/figures/FigSafePaste.astro';
+import FigPlacement from '../components/figures/FigPlacement.astro';
+import FigInsurance from '../components/figures/FigInsurance.astro';
+import FigDuolingo from '../components/figures/FigDuolingo.astro';
 
-const projects = (await getCollection('projects')).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const figures: Record<string, any> = {
+  nexusims: FigNexus,
+  safepaste: FigSafePaste,
+  'ai-placement': FigPlacement,
+  'insurance-analytics': FigInsurance,
+  'duolingo-onboarding': FigDuolingo,
+};
 
-const timeline = [
-  { dot: '🎓', year: '2021 – 2024', title: 'BS Computer Science', desc: 'KC College, Mumbai. CGPA 9.73. Built the technical foundation that powers everything I do.' },
-  { dot: '🚀', year: '2023 – 2024', title: 'First Product', desc: 'Led the AI Placement System as Product Lead — shipped with a 4-person team across 3 Agile sprints.' },
-  { dot: '⚡', year: '2024 – 2025', title: 'Faclon Labs', desc: 'Business Strategy Analyst at a funded IoT startup. Owned a supply-chain product end-to-end.' },
-  { dot: '📊', year: '2024 – 2025', title: 'Data Science Diploma', desc: 'SDBI postgrad. CGPA 9.05. Deep dive into ML, NLP, and predictive modeling.' },
-  { dot: '🏛', year: '2025 – Now', title: 'NYU Master’s', desc: 'MS Project Management (STEM), GPA 3.91. Building NexusIMS & SafePaste alongside coursework.' },
-];
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 
-const impact = [
-  { n: 20, suffix: '%', label: 'Supply-chain reliability improvement at Faclon Labs' },
-  { n: 60, suffix: '%', label: 'Reduction in manual resume screening via NLP automation' },
-  { n: 30, suffix: '%', label: 'Improvement in cross-team milestone tracking' },
-  { n: 40, suffix: '%', label: 'Fewer ad-hoc reporting requests via self-serve dashboards' },
-];
-
-const process = [
-  { num: '01', phase: 'Discovery', title: 'Understand the system', items: ['Stakeholder interviews', 'Root-cause analysis', 'Gap analysis & mapping', 'Market sizing (TAM/SAM)'] },
-  { num: '02', phase: 'Plan', title: 'Define the blueprint', items: ['PRD / BRD authorship', 'RICE prioritization', 'OKR & KPI definition', 'Roadmap sequencing'] },
-  { num: '03', phase: 'Execute', title: 'Ship incrementally', items: ['Agile sprint management', 'Cross-functional sync', 'UAT & defect resolution', 'Stakeholder alignment'] },
-  { num: '04', phase: 'Deliver', title: 'Measure & iterate', items: ['KPI dashboarding', 'User feedback loops', 'Post-launch iteration', 'Executive reporting'] },
-];
-
-const tools = [
-  { i: '🐍', n: 'Python' }, { i: '🗃', n: 'SQL' }, { i: '📊', n: 'Power BI' }, { i: '📈', n: 'Tableau' },
-  { i: '⚛️', n: 'React' }, { i: '🔥', n: 'FastAPI' }, { i: '🐘', n: 'PostgreSQL' }, { i: '🍃', n: 'MongoDB' },
-  { i: '📋', n: 'Jira' }, { i: '✅', n: 'ClickUp' }, { i: '🎨', n: 'Figma' }, { i: '☁️', n: 'AWS' },
-  { i: '🐳', n: 'Docker' }, { i: '🤖', n: 'NLP / ML' }, { i: '🔗', n: 'REST APIs' }, { i: '📦', n: 'GitHub' },
-  { i: '⚡', n: 'Redis' }, { i: '🧩', n: 'Agile / Scrum' },
+const record = [
+  { year: '2025 —', what: 'MS Project Management (STEM), NYU', note: 'GPA 3.91. Building NexusIMS and SafePaste alongside coursework.' },
+  { year: '2024 – 25', what: 'Business Strategy Analyst, Faclon Labs', note: 'Funded IoT startup. Owned a supply-chain product end to end; +20% reliability.' },
+  { year: '2024 – 25', what: 'PG Diploma, Data Science — SDBI', note: 'CGPA 9.05. ML, NLP, predictive modelling.' },
+  { year: '2023 – 24', what: 'Product Lead, AI Placement System', note: 'Four people, three sprints, twelve UAT cases. First time owning a product.' },
+  { year: '2021 – 24', what: 'BS Computer Science, KC College Mumbai', note: 'CGPA 9.73. The reason I can read the codebase I am speccing.' },
 ];
 ---
 
 <Base>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-shape"></div>
+  <!-- ============ TITLE BLOCK — renders without JS ============ -->
+  <header class="hero wrap">
+    <div class="hero-top">
+      <span class="meta">Portfolio · Product</span>
+      <span class="meta status"><span class="status-dot"></span>Open to 2026 roles</span>
+    </div>
+
+    <h1 class="display hero-display">I write the spec,<br />then I build it.</h1>
+
     <div class="hero-grid">
-      <div class="hero-content">
-        <div class="hero-label reveal">Product Manager &amp; Strategist</div>
-        <h1 class="h1 reveal" data-delay="100">I turn complex<br />problems into<br /><em>scalable products.</em></h1>
-        <p class="hero-sub reveal" data-delay="200">
-          NYU grad student. Ex-Faclon Labs. I live at the intersection of data,
-          product strategy, and execution — building systems that make decisions faster.
+      <div>
+        <p class="body-lg">
+          I'm a product manager with a computer science degree, which means I can write
+          the PRD and then go implement it. I've shipped a multi-tenant inventory platform,
+          an on-device privacy tool, and an NLP screening system that cut manual work by 60%.
+          Right now I'm at NYU finishing a master's and building two products in parallel.
         </p>
-        <div class="hero-actions reveal" data-delay="300">
-          <a href="#work" class="btn">Explore my work</a>
-          <a href="#contact" class="btn btn--outline">Let’s connect</a>
+
+        <dl class="kv" style="margin-top: 1.75rem">
+          <dt>Role</dt><dd>Product Manager · Business Analyst · Data PM</dd>
+          <dt>Based</dt><dd>New York City — open to remote and hybrid</dd>
+          <dt>Now</dt><dd>MS Project Management (STEM), NYU — GPA 3.91</dd>
+          <dt>Before</dt><dd>Business Strategy Analyst, Faclon Labs</dd>
+          <dt>Work auth</dt><dd>F-1 · STEM OPT eligible</dd>
+        </dl>
+
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1.75rem">
+          <a href="#work" class="btn btn--signal">Read the work</a>
+          <a href="mailto:singhadit.505@gmail.com" class="btn">Email me</a>
         </div>
       </div>
-      <div class="hero-visual reveal" data-delay="200">
-        <div class="hero-frame">
-          <img src="/images/aditya-hero.jpg" alt="Aditya Singh" width="420" height="520" fetchpriority="high" />
-        </div>
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text">Open to opportunities<span>NYC · Remote · Hybrid</span></span>
-        </div>
+
+      <figure class="hero-portrait">
+        <Image
+          src={heroPortrait}
+          alt="Aditya Singh"
+          widths={[320, 640, 960]}
+          sizes="(max-width: 860px) 100vw, 320px"
+          fetchpriority="high"
+          loading="eager"
+        />
+        <figcaption class="figcap">
+          <span>Fig. 0 — A. Singh</span>
+          <span>NYC</span>
+        </figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <!-- ============ §01 WORK ============ -->
+  <section class="clause wrap" id="work">
+    <div class="clause-head">
+      <span class="clause-num">§ 01</span>
+      <div>
+        <h2 class="h2">Work</h2>
+        <p class="body-lg" style="margin-top:0.5rem">
+          Four systems I built and one experiment I designed. Each started as a written
+          problem statement and ended as something with numbers attached. The figures are
+          drawn from the real repositories and the real design doc, not decoration.
+        </p>
       </div>
     </div>
-    <div class="scroll-hint">Scroll</div>
-  </section>
 
-  <!-- STORY -->
-  <section class="section section--cream" id="story">
-    <div class="inner about-grid">
-      <div class="about-photo reveal">
-        <div class="about-img"><img src="/images/aditya-about.jpg" alt="Aditya Singh portrait" width="952" height="1190" loading="lazy" /></div>
-        <div class="about-quote-card">
-          <p class="about-quote">“I design like a product manager who understands systems, not just visuals.”</p>
-          <p class="about-quote-meta">— How I approach every problem</p>
-        </div>
-      </div>
-      <div class="about-content">
-        <div class="eyebrow">My Story</div>
-        <h2 class="h2">From code<br />to <em>strategy</em></h2>
-        <div class="gold-line"></div>
-        <p class="about-body reveal">
-          I started in computer science — writing code, building systems, learning how things
-          work from the inside. Then I realized the hardest problems aren’t technical.
-          They’re organizational, strategic, human.
-        </p>
-        <p class="about-body reveal">
-          At Faclon Labs, I owned an end-to-end inventory management system that improved
-          supply-chain reliability by 20% — not as a developer, but as a product strategist
-          who could speak both languages fluently.
-        </p>
-        <p class="about-body reveal">
-          Now at NYU pursuing my MS in Project Management (STEM), I’m sharpening the frameworks
-          that turn ambiguity into architecture — and architecture into outcomes.
-        </p>
-        <div class="pills reveal">
-          {['Product Strategy', 'B2B SaaS', 'Data Analytics', 'Supply Chain', 'Agile / Scrum', 'NLP & AI'].map((p) => (
-            <span class="pill">{p}</span>
-          ))}
-        </div>
-        <div class="reveal" style="display:flex;gap:1rem;flex-wrap:wrap">
-          <a href="#work" class="btn">See my work</a>
-          <a href="https://www.linkedin.com/in/singh-aditya59/" class="btn btn--outline" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    {projects.map((p, i) => {
+      const Figure = figures[p.id];
+      return (
+        <article class="spec rise" id={p.id}>
+          <div class="spec-bar">
+            <span class="meta">Spec / {String(i + 1).padStart(2, '0')} — {p.data.category}</span>
+            <span class="meta">{p.data.year}</span>
+          </div>
+          <div class="spec-body">
+            <div class="spec-text">
+              <h3 class="spec-title"><a href={`/work/${p.id}`}>{p.data.title}</a></h3>
+              <p class="spec-thesis">{p.data.tagline}</p>
 
-  <!-- TIMELINE -->
-  <section class="section section--alt">
-    <div class="inner">
-      <div class="eyebrow reveal">Journey</div>
-      <h2 class="h2 reveal">Milestones that<br />shaped <em>my thinking</em></h2>
-      <div class="timeline">
-        <div class="timeline-track">
-          {timeline.map((t, i) => (
-            <div class="tl-item reveal" data-delay={i * 90}>
-              <div class="tl-dot">{t.dot}</div>
-              <div class="tl-year">{t.year}</div>
-              <div class="tl-title">{t.title}</div>
-              <div class="tl-desc">{t.desc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section class="section section--cream" id="work">
-    <div class="inner">
-      <div class="eyebrow reveal">Systems I Build</div>
-      <h2 class="h2 reveal">Products, not <em>just projects</em></h2>
-      <p class="lead reveal">
-        Every system here started with a real problem, a structured discovery process, and a
-        measurable outcome. Not demos — products with users, iterations, and impact.
-      </p>
-      <div class="projects-grid">
-        {projects.map((p, i) => (
-          <a href={`/work/${p.id}`} class:list={['project-card', 'reveal', { featured: p.data.featured }]} data-delay={i * 80}>
-            <div class:list={['project-visual', p.data.visual]}>{p.data.emoji}</div>
-            <div>
-              <span class="chip">{p.data.category}</span>
-              <h3 class="project-name">{p.data.title}</h3>
-              <p class="project-desc">{p.data.summary}</p>
-              <div class="tags">
-                {p.data.tech.map((t) => <span class="tag">{t}</span>)}
-              </div>
-              <div class="project-meta">
-                {p.data.metrics.slice(0, 2).map((m, j) => (
-                  <>{j > 0 && <span>·</span>}<span><span class="metric">{m.value}</span> {m.label}</span></>
+              <div class="figures">
+                {p.data.metrics.map((m) => (
+                  <div>
+                    <div class="figure-n">{m.value}</div>
+                    <div class="figure-l">{m.label}</div>
+                  </div>
                 ))}
               </div>
-              <span class="project-link">Read the case study →</span>
+
+              <div class="stack-run" style="margin-bottom:1.25rem">
+                {p.data.tech.map((t) => <span>{t}</span>)}
+              </div>
+
+              <a href={`/work/${p.id}`} class="readmore">
+                {p.data.kind === 'experiment' ? 'Read the design' : 'Read the case study'} →
+              </a>
+
+              {p.data.artifacts && (
+                <p class="meta" style="margin-top:0.9rem">
+                  Artifacts — {p.data.artifacts.map((a) => a.label).join(' · ')}
+                </p>
+              )}
             </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- IMPACT -->
-  <section class="impact" id="impact">
-    <div class="inner">
-      <div class="eyebrow reveal">Measurable Outcomes</div>
-      <h2 class="h2 reveal">Numbers that<br /><em>tell the story</em></h2>
-      <div class="impact-grid">
-        {impact.map((m, i) => (
-          <div class="impact-card reveal" data-delay={i * 120}>
-            <div class="impact-num"><span data-count={m.n}>0</span><span class="impact-suffix">{m.suffix}</span></div>
-            <div class="impact-divider"></div>
-            <div class="impact-label">{m.label}</div>
+            <div class="spec-fig">
+              {Figure && <Figure />}
+            </div>
           </div>
+        </article>
+      );
+    })}
+  </section>
+
+  <!-- ============ §02 RECORD ============ -->
+  <section class="clause wrap" id="record">
+    <div class="clause-head">
+      <span class="clause-num">§ 02</span>
+      <div>
+        <h2 class="h2">Record</h2>
+        <p class="body-lg" style="margin-top:0.5rem">
+          Computer science, then strategy, then product. In that order, on purpose.
+        </p>
+      </div>
+    </div>
+
+    <table class="ruled rise">
+      <thead>
+        <tr><th style="width:7rem">Year</th><th style="width:22rem">What</th><th class="c-note">Note</th></tr>
+      </thead>
+      <tbody>
+        {record.map((r) => (
+          <tr>
+            <td class="c-year">{r.year}</td>
+            <td class="c-what">{r.what}</td>
+            <td class="c-note">{r.note}</td>
+          </tr>
         ))}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ §03 APPROACH ============ -->
+  <section class="clause wrap" id="approach">
+    <div class="clause-head">
+      <span class="clause-num">§ 03</span>
+      <div>
+        <h2 class="h2">Approach</h2>
+      </div>
+    </div>
+
+    <div class="doc rise">
+      <aside class="doc-margin">
+        <p>On method</p>
+        <p style="margin-top:0.75rem" class="signal">↓</p>
+      </aside>
+      <div class="doc-body">
+        <p>
+          I started in computer science and spent three years learning how systems actually
+          fail. Then I found out the expensive failures are almost never technical. They're
+          a team shipping the wrong thing quickly, or arguing for six weeks because nobody
+          wrote down what "churn" means.
+        </p>
+        <p>
+          So my process is boring on purpose. <strong>Write the problem down first.</strong> At
+          Faclon Labs that meant sitting with the supply-chain team until the actual constraint
+          surfaced, which was reconciliation lag, not forecasting. On the insurance dashboard it
+          meant refusing to build a chart until eight metrics had agreed formulas. That
+          argument was the deliverable; the dashboard was just the artifact.
+        </p>
+        <p>
+          <strong>Then sequence honestly.</strong> RICE is not a magic ranking, it's a way to make
+          the cut defensible when scope pressure arrives mid-sprint — and it always does. On the
+          placement system it's why we shipped the parser and the ranker before anyone's
+          favourite analytics view.
+        </p>
+        <p>
+          <strong>Then build it.</strong> This is the part I'd rather not outsource. NexusIMS is
+          165 source files I wrote against a system design I wrote, and speccing a module
+          marketplace teaches you things about permission scoping that no amount of roadmap
+          review does. I don't think every PM needs to code. I do think the ones who can
+          write better specs.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
-  <section class="section section--alt" id="process">
-    <div class="inner">
-      <div class="eyebrow reveal">How I Work</div>
-      <h2 class="h2 reveal">My product<br /><em>execution model</em></h2>
-      <p class="lead reveal">Every engagement follows the same rigorous pattern — from messy problem to measurable outcome.</p>
-      <div class="pipeline">
-        {process.map((s, i) => (
-          <div class="step reveal" data-delay={i * 120}>
-            <div class="step-num">{s.num}</div>
-            <div class="step-phase">{s.phase}</div>
-            <div class="step-title">{s.title}</div>
-            <ul class="step-items">{s.items.map((it) => <li>{it}</li>)}</ul>
-          </div>
-        ))}
+  <!-- ============ §04 CONTACT ============ -->
+  <section class="clause wrap" id="contact">
+    <div class="clause-head">
+      <span class="clause-num">§ 04</span>
+      <div>
+        <h2 class="h2">Contact</h2>
+        <p class="body-lg" style="margin-top:0.5rem">
+          I'm looking for product, business analyst, and data PM roles for 2026.
+          If you have a problem that isn't well defined yet, that's the interesting kind.
+        </p>
       </div>
     </div>
-  </section>
 
-  <!-- STACK -->
-  <section class="section section--cream" id="stack">
-    <div class="inner">
-      <div class="eyebrow reveal">Technical Fluency</div>
-      <h2 class="h2 reveal">Tools of the <em>trade</em></h2>
-      <div class="tools-grid">
-        {tools.map((t, i) => (
-          <div class="tool reveal" data-delay={i * 40}>
-            <span class="tool-icon">{t.i}</span>
-            <span class="tool-name">{t.n}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA + CONTACT -->
-  <section class="cta" id="contact">
-    <div class="inner">
-      <div class="eyebrow eyebrow--center reveal">Ready to Build</div>
-      <h2 class="cta-h2 reveal">Have a problem<br /><em>worth solving?</em></h2>
-      <p class="cta-sub reveal">
-        I’m actively exploring Product Manager, Business Analyst, and Data PM roles where I can
-        bridge technical rigor with business impact. F-1 Visa · STEM OPT Eligible.
-      </p>
-
-      <form class="contact-form reveal" id="contactForm">
-        <!-- Web3Forms: replace the access key below with your own from https://web3forms.com (free) -->
+    <div class="colophon rise">
+      <form id="contactForm">
         <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
         <input type="hidden" name="subject" value="New message from singhadit.com" />
         <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
-        <div class="contact-row">
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required autocomplete="name" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required autocomplete="email" />
-          </div>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required autocomplete="email" />
         </div>
         <div class="field">
           <label for="message">Message</label>
           <textarea id="message" name="message" required></textarea>
         </div>
-        <button type="submit" class="btn" style="justify-content:center">Send message</button>
+        <button type="submit" class="btn btn--signal">Send</button>
         <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
       </form>
 
-      <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-        <a href="/resume.pdf" class="btn btn--outline" download>↓ Download Résumé (PDF)</a>
-        <a href="mailto:singhadit.505@gmail.com" class="btn btn--outline">singhadit.505@gmail.com</a>
-      </div>
-
-      <div class="cta-links reveal">
-        <a href="https://www.linkedin.com/in/singh-aditya59/" class="cta-link" target="_blank" rel="noopener">LinkedIn →</a>
-        <a href="https://github.com/Adityasingh59" class="cta-link" target="_blank" rel="noopener">GitHub →</a>
-        <a href="mailto:singhadit.505@gmail.com" class="cta-link">Email →</a>
+      <div>
+        <ul class="linklist">
+          <li><a href="mailto:singhadit.505@gmail.com"><span>singhadit.505@gmail.com</span><span class="k">Email</span></a></li>
+          <li><a href="https://www.linkedin.com/in/singh-aditya59/" target="_blank" rel="noopener"><span>singh-aditya59</span><span class="k">LinkedIn</span></a></li>
+          <li><a href="https://github.com/Adityasingh59" target="_blank" rel="noopener"><span>Adityasingh59</span><span class="k">GitHub</span></a></li>
+          <li><a href="/resume.pdf" download><span>Curriculum vitae</span><span class="k">PDF</span></a></li>
+        </ul>
+        <p class="meta" style="margin-top:1.5rem; line-height:1.8">
+          Based in New York City<br />
+          Open to remote · hybrid · on-site<br />
+          F-1 visa · STEM OPT eligible
+        </p>
       </div>
     </div>
   </section>
@@ -269,7 +270,6 @@ const tools = [
     const data = new FormData(form);
     const key = data.get('access_key');
 
-    // Graceful fallback until a Web3Forms key is configured.
     if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY') {
       const name = encodeURIComponent(String(data.get('name') || ''));
       const msg = encodeURIComponent(String(data.get('message') || ''));
@@ -288,15 +288,12 @@ const tools = [
         body: data,
       });
       const json = await res.json();
-      if (json.success) {
-        note.textContent = 'Thanks — your message is on its way. I’ll get back to you soon.';
-        note.className = 'form-note ok';
-        form.reset();
-      } else {
-        throw new Error(json.message || 'Something went wrong');
-      }
+      if (!json.success) throw new Error(json.message || 'failed');
+      note.textContent = 'Sent. I’ll reply shortly.';
+      note.className = 'form-note ok';
+      form.reset();
     } catch (err) {
-      note.textContent = 'Couldn’t send right now — please email me directly at singhadit.505@gmail.com.';
+      note.textContent = 'Failed to send — email singhadit.505@gmail.com directly.';
       note.className = 'form-note error';
     }
   });

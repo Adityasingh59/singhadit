@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0B1F2A"/>
-  <text x="50%" y="50%" dy="0.02em" text-anchor="middle" dominant-baseline="central"
-        font-family="Georgia, 'Cormorant Garamond', serif" font-size="40" font-weight="700"
-        font-style="italic" fill="#F4A261">A</text>
+  <rect width="64" height="64" fill="#16171A"/>
+  <rect x="6.5" y="6.5" width="51" height="51" fill="none" stroke="#C4341C" stroke-width="1.5"/>
+  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central"
+        font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="30" font-weight="500"
+        fill="#EDEAE3">as</text>
 </svg>

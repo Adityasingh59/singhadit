@@ -4,7 +4,7 @@ tagline: A privacy firewall for AI tools — it redacts sensitive data from your
 summary: On-device privacy layer that detects and redacts 15+ sensitive data types from the clipboard before they reach AI tools. 100% local, sub-500ms latency, 95%+ detection accuracy. v1.1 shipped on community feedback.
 category: Open Source · AI Governance
 year: "2025"
-order: 2
+order: 3
 featured: false
 emoji: "🔒"
 visual: v-safepaste
