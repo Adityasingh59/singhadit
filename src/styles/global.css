@@ -105,13 +105,20 @@ a { color: inherit; }
   align-items: start; margin-bottom: 3rem;
 }
 .clause-num {
+  position: relative;
   font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
   letter-spacing: 0.1em; color: var(--signal);
-  padding-top: 0.55rem; border-top: 2px solid var(--signal);
+  padding-top: 0.55rem;
+}
+.clause-num::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--signal); transform-origin: 0 50%;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (max-width: 720px) {
   .clause-head { grid-template-columns: 1fr; gap: 0.75rem; }
-  .clause-num { border-top: none; padding-top: 0; }
+  .clause-num { padding-top: 0; }
+  .clause-num::before { display: none; }
 }
 
 /* ---------- Controls (rectangles, not pills) ---------- */
@@ -308,8 +315,108 @@ a { color: inherit; }
 .prose a { color: var(--signal); }
 .prose code { font-family: var(--mono); font-size: 0.85em; background: var(--panel); border: var(--rule-w) solid var(--rule); padding: 0.05rem 0.3rem; }
 
-/* ---------- Motion: restrained. A wipe, not a float. ---------- */
+/* ============================================================
+   MOTION
+   The conceit: a plotter drafting a document. Things are drawn,
+   ruled, and typed on — never floated or bounced.
+   All of it is opt-out via prefers-reduced-motion, and none of it
+   is allowed to hide content that must render without JS.
+   ============================================================ */
+
+/* scroll progress — a rule being drawn along the top of the document */
+.progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 100%;
+  background: var(--signal); transform: scaleX(var(--p, 0));
+  transform-origin: 0 50%; z-index: 200; pointer-events: none;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .rise { opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
-  .rise.in { opacity: 1; transform: none; }
+
+  /* ---- Everything below animates FROM a hidden state via keyframes,
+     and is fully visible in its base state. Nothing is ever hidden
+     waiting to be un-hidden, so a script that never runs, an observer
+     that never fires, or a paused animation all degrade to
+     "the content is simply there". ---- */
+
+  .rise.in { animation: rise-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+  @keyframes rise-in { from { opacity: 0; transform: translateY(10px); } }
+
+  /* ---- hero: CSS-only, so it never depends on JS to appear ---- */
+  .hero-top, .hero-display, .hero-grid > div > *, .hero-portrait {
+    animation: draft 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+  .hero-top { animation-delay: 0.05s; }
+  .hero-display { animation-delay: 0.14s; }
+  .hero-grid > div > .body-lg { animation-delay: 0.24s; }
+  .hero-grid > div > .kv { animation-delay: 0.32s; }
+  .hero-grid > div > div { animation-delay: 0.4s; }
+  .hero-portrait { animation-delay: 0.3s; }
+  @keyframes draft { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* the rule under the title block draws itself */
+  .hero-grid { animation: rule-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards; }
+  @keyframes rule-in {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  /* ---- clause numbers: the vermilion rule extends ---- */
+  .clause-num.in::before { animation: draw-rule 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+  @keyframes draw-rule { from { transform: scaleX(0); } }
+
+  /* ---- ruled table: rows print in sequence ---- */
+  .ruled tbody tr.in { animation: row-in 0.45s ease-out backwards; }
+  @keyframes row-in { from { opacity: 0; transform: translateY(6px); } }
+
+  /* ---- figures: strokes draw, then labels are typed on ----
+     JS sets --len (path length) and --d (stagger) inline. Base state is
+     dashoffset 0 = fully drawn, so an un-run animation is a normal figure. */
+  .fig.drawn line, .fig.drawn rect, .fig.drawn path, .fig.drawn circle {
+    animation: draw-stroke 0.75s cubic-bezier(0.65, 0, 0.35, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes draw-stroke { from { stroke-dashoffset: var(--len, 0); } }
+
+  /* solid blocks aren't drawn, they're stamped */
+  .fig .stamp { transform-box: fill-box; transform-origin: 0 50%; }
+  .fig.drawn .stamp {
+    animation: stamp-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes stamp-in { from { transform: scaleX(0); } }
+
+  .fig.drawn text { animation: type-on 0.3s linear backwards; animation-delay: var(--d, 0ms); }
+  @keyframes type-on { from { opacity: 0; } }
+}
+
+/* ---- interaction: everything clickable must answer ---- */
+.spec { transition: border-color 0.25s ease, transform 0.25s ease; }
+.spec:hover { border-color: var(--ink-3); }
+.spec:has(.spec-title a:hover) { border-color: var(--signal); }
+
+.btn { transition: background 0.15s linear, color 0.15s linear, border-color 0.15s linear, transform 0.08s ease-out; }
+.btn:active { transform: translateY(1px); }
+.icon-btn:active { transform: scale(0.94); }
+
+.spec-title a { background-image: linear-gradient(var(--signal), var(--signal)); background-size: 0% 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 0.3s ease, color 0.2s ease; }
+.spec-title a:hover { background-size: 100% 1px; }
+
+.readmore { transition: gap 0.2s ease, letter-spacing 0.2s ease; }
+.readmore:hover { letter-spacing: 0.09em; }
+
+.nav-links a { position: relative; }
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+  background: var(--signal); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.figures > div { transition: transform 0.2s ease; }
+.figures > div:hover .figure-n { color: var(--signal); }
+.figure-n { transition: color 0.2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .progress { display: none; }
 }

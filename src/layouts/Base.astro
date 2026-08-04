@@ -65,6 +65,7 @@ const year = new Date().getFullYear();
     </script>
   </head>
   <body>
+    <div class="progress" id="progress" aria-hidden="true"></div>
     <Nav />
     <main>
       <slot />
@@ -84,23 +85,117 @@ const year = new Date().getFullYear();
         try { localStorage.setItem('theme', next); } catch (e) {}
       });
 
-      // Restrained reveal. Never applied to above-the-fold content:
-      // the page must render fully without JS.
-      const items = document.querySelectorAll<HTMLElement>('.rise');
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && items.length) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (!e.isIntersecting) return;
-              (e.target as HTMLElement).classList.add('in');
-              io.unobserve(e.target);
-            });
-          },
-          { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
-        );
+      const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------------------------------------------------------
+         Reveals. Never applied to above-the-fold content: the page
+         must render fully without JS.
+      --------------------------------------------------------- */
+      const supportsIO = 'IntersectionObserver' in window;
+
+      const reveal = (sel: string, opts?: IntersectionObserverInit) => {
+        const items = document.querySelectorAll<HTMLElement>(sel);
+        if (!items.length) return;
+        if (still || !supportsIO) { items.forEach((el) => el.classList.add('in')); return; }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          });
+        }, opts ?? { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
         items.forEach((el) => io.observe(el));
-      } else {
-        items.forEach((el) => el.classList.add('in'));
+      };
+
+
+      reveal('.rise');
+      reveal('.clause-num', { threshold: 0.5 });
+
+      // table rows print in sequence
+      document.querySelectorAll<HTMLElement>('.ruled tbody').forEach((body) => {
+        const rows = [...body.querySelectorAll<HTMLElement>('tr')];
+        if (still) { rows.forEach((r) => r.classList.add('in')); return; }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            io.disconnect();
+            rows.forEach((r, i) => setTimeout(() => r.classList.add('in'), i * 70));
+          });
+        }, { threshold: 0.15 });
+        io.observe(body);
+      });
+
+      /* ---------------------------------------------------------
+         Figures draw themselves, like a pen plotter working down
+         the sheet. Progressive enhancement: with no JS the figures
+         simply render complete.
+      --------------------------------------------------------- */
+      if (!still) {
+        const svgs = document.querySelectorAll<SVGSVGElement>('.spec-fig svg');
+
+        const draw = (svg: SVGSVGElement) => {
+          const nodes = [...svg.querySelectorAll<SVGGraphicsElement>('line, rect, path, circle, text')];
+          // plot top-to-bottom, the way a pen would work down the sheet
+          const measured = nodes.map((el) => {
+            let y = 0;
+            try { y = el.getBBox().y; } catch (e) {}
+            return { el, y };
+          });
+          measured.sort((a, b) => a.y - b.y);
+
+          const span = 700; // total stagger, ms
+          measured.forEach(({ el }, i) => {
+            el.style.setProperty('--d', Math.round((i / Math.max(measured.length - 1, 1)) * span) + 'ms');
+            const filled = el.classList.contains('sig-fill') || el.classList.contains('rule-fill');
+            // Elements that are *designed* dashed carry their own
+            // stroke-dasharray; overwriting it to draw them would destroy
+            // the dashed/solid distinction the figures rely on. Scale those
+            // in instead.
+            const designedDashed =
+              el.hasAttribute('stroke-dasharray') && el.getAttribute('stroke-dasharray') !== '0';
+
+            if (filled || designedDashed) {
+              el.classList.add('stamp');
+            } else if (el.tagName !== 'text') {
+              let len = 0;
+              try { len = (el as unknown as SVGGeometryElement).getTotalLength(); } catch (e) {}
+              if (len > 0) {
+                el.style.setProperty('--len', String(Math.ceil(len)));
+                // dasharray must be present for dashoffset to bite; with
+                // dashoffset 0 (the base state) it still renders solid.
+                el.style.strokeDasharray = String(Math.ceil(len));
+              }
+            }
+          });
+          svg.classList.add('fig', 'drawn');
+        };
+
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            io.unobserve(e.target);
+            draw(e.target as SVGSVGElement);
+          });
+        }, { threshold: 0.2 });
+        svgs.forEach((s) => io.observe(s));
+      }
+
+      /* ---------- scroll progress rule ---------- */
+      const bar = document.getElementById('progress');
+      if (bar && !still) {
+        let ticking = false;
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.setProperty('--p', String(max > 0 ? window.scrollY / max : 0));
+          ticking = false;
+        };
+        update();
+        window.addEventListener('scroll', () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        }, { passive: true });
+        window.addEventListener('resize', update, { passive: true });
       }
     </script>
   </body>
