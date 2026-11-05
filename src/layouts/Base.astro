@@ -11,7 +11,7 @@ interface Props {
 const {
   title = 'Aditya Singh — Product Manager',
   description =
-    'Aditya Singh — product manager. I write the spec, design the system, and ship it. NexusIMS, SafePaste. NYU MS Project Management, ex-Faclon Labs.',
+    'Aditya Singh, product manager. Former sole product and strategy hire at a pre-Series A B2B SaaS company. Customer discovery, prioritization, KPI design and delivery. NYU M.S., available January 2027.',
   image = '/images/aditya-hero.jpg',
 } = Astro.props;
 
@@ -24,13 +24,13 @@ const year = new Date().getFullYear();
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="author" content="Aditya Singh" />
-    <meta name="theme-color" content="#EDEAE3" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#101114" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F6F7F9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E131B" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -48,7 +48,7 @@ const year = new Date().getFullYear();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -65,137 +65,38 @@ const year = new Date().getFullYear();
     </script>
   </head>
   <body>
-    <div class="progress" id="progress" aria-hidden="true"></div>
     <Nav />
     <main>
       <slot />
     </main>
 
     <footer class="foot">
-      <span>Aditya Singh — New York</span>
-      <span>Set in IBM Plex. Built with Astro. No template.</span>
-      <span>© {year}</span>
+      <div class="wrap">
+        <span>Aditya Singh · Product Manager · New York</span>
+        <span>© {year}</span>
+      </div>
     </footer>
 
     <script>
-      // Theme
       document.getElementById('themeToggle')?.addEventListener('click', () => {
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         try { localStorage.setItem('theme', next); } catch (e) {}
       });
 
+      // Gentle reveal below the fold. Base state is visible, so nothing
+      // depends on this script running.
       const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      /* ---------------------------------------------------------
-         Reveals. Never applied to above-the-fold content: the page
-         must render fully without JS.
-      --------------------------------------------------------- */
-      const supportsIO = 'IntersectionObserver' in window;
-
-      const reveal = (sel: string, opts?: IntersectionObserverInit) => {
-        const items = document.querySelectorAll<HTMLElement>(sel);
-        if (!items.length) return;
-        if (still || !supportsIO) { items.forEach((el) => el.classList.add('in')); return; }
+      const items = document.querySelectorAll<HTMLElement>('.rise');
+      if (!still && 'IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
           entries.forEach((e) => {
             if (!e.isIntersecting) return;
             e.target.classList.add('in');
             io.unobserve(e.target);
           });
-        }, opts ?? { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
         items.forEach((el) => io.observe(el));
-      };
-
-
-      reveal('.rise');
-      reveal('.clause-num', { threshold: 0.5 });
-
-      // table rows print in sequence
-      document.querySelectorAll<HTMLElement>('.ruled tbody').forEach((body) => {
-        const rows = [...body.querySelectorAll<HTMLElement>('tr')];
-        if (still) { rows.forEach((r) => r.classList.add('in')); return; }
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            io.disconnect();
-            rows.forEach((r, i) => setTimeout(() => r.classList.add('in'), i * 70));
-          });
-        }, { threshold: 0.15 });
-        io.observe(body);
-      });
-
-      /* ---------------------------------------------------------
-         Figures draw themselves, like a pen plotter working down
-         the sheet. Progressive enhancement: with no JS the figures
-         simply render complete.
-      --------------------------------------------------------- */
-      if (!still) {
-        const svgs = document.querySelectorAll<SVGSVGElement>('.spec-fig svg');
-
-        const draw = (svg: SVGSVGElement) => {
-          const nodes = [...svg.querySelectorAll<SVGGraphicsElement>('line, rect, path, circle, text')];
-          // plot top-to-bottom, the way a pen would work down the sheet
-          const measured = nodes.map((el) => {
-            let y = 0;
-            try { y = el.getBBox().y; } catch (e) {}
-            return { el, y };
-          });
-          measured.sort((a, b) => a.y - b.y);
-
-          const span = 700; // total stagger, ms
-          measured.forEach(({ el }, i) => {
-            el.style.setProperty('--d', Math.round((i / Math.max(measured.length - 1, 1)) * span) + 'ms');
-            const filled = el.classList.contains('sig-fill') || el.classList.contains('rule-fill');
-            // Elements that are *designed* dashed carry their own
-            // stroke-dasharray; overwriting it to draw them would destroy
-            // the dashed/solid distinction the figures rely on. Scale those
-            // in instead.
-            const designedDashed =
-              el.hasAttribute('stroke-dasharray') && el.getAttribute('stroke-dasharray') !== '0';
-
-            if (filled || designedDashed) {
-              el.classList.add('stamp');
-            } else if (el.tagName !== 'text') {
-              let len = 0;
-              try { len = (el as unknown as SVGGeometryElement).getTotalLength(); } catch (e) {}
-              if (len > 0) {
-                el.style.setProperty('--len', String(Math.ceil(len)));
-                // dasharray must be present for dashoffset to bite; with
-                // dashoffset 0 (the base state) it still renders solid.
-                el.style.strokeDasharray = String(Math.ceil(len));
-              }
-            }
-          });
-          svg.classList.add('fig', 'drawn');
-        };
-
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            io.unobserve(e.target);
-            draw(e.target as SVGSVGElement);
-          });
-        }, { threshold: 0.2 });
-        svgs.forEach((s) => io.observe(s));
-      }
-
-      /* ---------- scroll progress rule ---------- */
-      const bar = document.getElementById('progress');
-      if (bar && !still) {
-        let ticking = false;
-        const update = () => {
-          const max = document.documentElement.scrollHeight - window.innerHeight;
-          bar.style.setProperty('--p', String(max > 0 ? window.scrollY / max : 0));
-          ticking = false;
-        };
-        update();
-        window.addEventListener('scroll', () => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(update);
-        }, { passive: true });
-        window.addEventListener('resize', update, { passive: true });
       }
     </script>
   </body>

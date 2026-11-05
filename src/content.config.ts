@@ -13,6 +13,8 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     /** 'build' ships code; 'experiment' ships a decision. Shown in the spec bar. */
     kind: z.enum(['build', 'experiment']).default('build'),
+    /** PM skills this project demonstrates; shown on the homepage card. */
+    skills: z.array(z.string()).default([]),
     tech: z.array(z.string()),
     metrics: z.array(z.object({ value: z.string(), label: z.string() })),
     /** Downloadable/viewable evidence — rendered as a linked list on the case study. */

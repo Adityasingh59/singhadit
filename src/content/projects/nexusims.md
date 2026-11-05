@@ -1,11 +1,15 @@
 ---
 title: NexusIMS
-tagline: A production-grade, multi-tenant inventory management system — designed as a real product, not a portfolio piece.
-summary: Multi-tenant IMS built from a formal PRD and system design before a single line of code. 159 source files, 10 modules, JWT auth, multi-warehouse tracking, BOM processing, and barcode APIs.
-category: Flagship Product
+tagline: A multi-tenant inventory product for multi-warehouse SMBs, taken from PRD to a deployable MVP to practise the full product lifecycle.
+summary: Multi-tenant inventory product scoped from a formal PRD for operations leads at multi-warehouse SMBs. Ten modules sequenced by RICE, with auth, warehouses and stock movements shipped before reporting.
+category: B2B SaaS · Side build
 year: "2025"
-order: 1
-featured: true
+order: 6
+featured: false
+skills:
+  - PRD and system design
+  - MVP scoping
+  - RICE sequencing
 emoji: "🏭"
 visual: v-nexus
 role: Product owner & system architect
@@ -18,9 +22,9 @@ tech:
   - Redis
   - Docker
 metrics:
-  - { value: "159", label: "source files" }
-  - { value: "10", label: "functional modules" }
-  - { value: "CI/CD", label: "fully automated" }
+  - { value: "10", label: "modules scoped in one PRD" }
+  - { value: "3", label: "core modules sequenced first" }
+  - { value: "1", label: "deployment serving many tenants" }
 repo: https://github.com/Adityasingh59
 ---
 
@@ -35,7 +39,7 @@ I wanted to answer a harder question than "can I build an app?" — **can I run 
 I treated NexusIMS like a funded product, not a coding exercise.
 
 - **Discovery & PRD.** I wrote a formal product requirements document defining the target user (operations leads at multi-warehouse SMBs), the jobs-to-be-done, and the non-negotiables: multi-tenancy, auditability, and real-time stock accuracy.
-- **System design first.** Before code, I mapped the data model, tenancy isolation strategy, auth flows, and module boundaries. That design doc is what kept 159 files coherent instead of sprawling.
+- **System design first.** Before code, I mapped the data model, tenancy isolation strategy, auth flows, and module boundaries. That design doc is what kept ten modules coherent instead of sprawling.
 - **Scoped to a real MVP.** I sequenced modules by RICE — auth, warehouses, and stock movements shipped before nice-to-haves like reporting dashboards.
 
 ## What I built

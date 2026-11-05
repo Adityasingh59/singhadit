@@ -1,10 +1,15 @@
 ---
 title: AI Placement System
-tagline: Led a four-person team as Product Lead to cut manual resume screening by 60% with an NLP pipeline.
+tagline: As product lead for a four-person team, cut manual resume screening by 60% for a college placement cell.
 summary: Product Lead on a 4-person team. Authored the PRD with RICE-prioritized features and integrated Gemini-Pro NLP for resume screening — 60% less manual effort, validated across 12 UAT cases with 100% defect resolution pre-launch.
 category: AI · Education Tech
 year: "2024"
-order: 4
+order: 3
+skills:
+  - PRD authorship
+  - RICE prioritization
+  - Sprint planning
+  - UAT and release sign-off
 featured: false
 emoji: "🤖"
 visual: v-placement

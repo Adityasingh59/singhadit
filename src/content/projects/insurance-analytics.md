@@ -1,10 +1,14 @@
 ---
 title: Insurance Analytics Platform
-tagline: Turned scattered insurance operations data into a self-serve dashboard built on an 8-KPI framework.
+tagline: Cut ad-hoc reporting requests by 40% across three teams by getting everyone to agree on eight KPI definitions first.
 summary: Defined an 8-KPI operational framework (claims throughput, risk exposure, churn signal) and built a self-serve Power BI dashboard with an NLP sentiment pipeline across 500+ records to surface risk signals in real time.
 category: Data Product · Analytics
 year: "2024"
-order: 5
+order: 4
+skills:
+  - KPI definition
+  - Stakeholder alignment
+  - Self-serve analytics
 featured: false
 emoji: "📊"
 visual: v-insurance

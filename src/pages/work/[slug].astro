@@ -7,6 +7,7 @@ import FigPlacement from '../../components/figures/FigPlacement.astro';
 import FigInsurance from '../../components/figures/FigInsurance.astro';
 import FigDuolingo from '../../components/figures/FigDuolingo.astro';
 
+// Supporting diagrams. They sit beside the story, never ahead of it.
 const figures: Record<string, any> = {
   nexusims: FigNexus,
   safepaste: FigSafePaste,
@@ -29,63 +30,73 @@ const Figure = figures[project.id];
 <Base title={`${d.title} — case study · Aditya Singh`} description={d.summary} image={d.ogImage}>
   <article>
     <header class="cs-head wrap">
-      <a href="/#work" class="meta" style="text-decoration:none">← Index</a>
+      <a href="/#work" class="cs-back">← All case studies</a>
+      <p class="eyebrow">{d.category}</p>
       <h1 class="cs-title">{d.title}</h1>
       <p class="cs-thesis">{d.tagline}</p>
     </header>
 
     <div class="wrap">
-      <div class="spec" style="margin-bottom:2.5rem">
-        <div class="spec-bar">
-          <span class="meta">Fig. 1 — {d.category}</span>
-          <span class="meta">{d.year}</span>
+      <section class="cs-summary" aria-label="Summary">
+        <dl class="kv">
+          {d.role && <><dt>My role</dt><dd>{d.role}</dd></>}
+          {d.timeframe && <><dt>Timeframe</dt><dd>{d.timeframe}</dd></>}
+          {d.skills.length > 0 && <><dt>Skills shown</dt><dd>{d.skills.join(' · ')}</dd></>}
+        </dl>
+        <div class="figures">
+          {d.metrics.map((m) => (
+            <div>
+              <div class="figure-n">{m.value}</div>
+              <div class="figure-l">{m.label}</div>
+            </div>
+          ))}
         </div>
-        <div class="spec-fig" style="border-left:none; padding:clamp(1.25rem,3vw,2.5rem)">
-          {Figure && <Figure />}
+      </section>
+
+      <div class="cs-body">
+        <div class="prose">
+          <Content />
         </div>
-      </div>
 
-      <dl class="kv" style="margin-bottom:2.5rem">
-        {d.role && <><dt>Role</dt><dd>{d.role}</dd></>}
-        {d.timeframe && <><dt>Timeframe</dt><dd>{d.timeframe}</dd></>}
-        <dt>Stack</dt><dd>{d.tech.join(' · ')}</dd>
-        {d.repo && <><dt>Source</dt><dd><a href={d.repo} target="_blank" rel="noopener" class="signal">{d.repo.replace('https://', '')} ↗</a></dd></>}
-      </dl>
+        <aside class="cs-aside">
+          {d.artifacts && (
+            <section>
+              <h2>Artifacts</h2>
+              <ul class="linklist">
+                {d.artifacts.map((a) => (
+                  <li>
+                    <a href={a.href} target="_blank" rel="noopener">
+                      <span>
+                        {a.label}
+                        {a.note && <span class="muted" style="display:block; font-size:0.85rem; margin-top:0.15rem">{a.note}</span>}
+                      </span>
+                      <span class="k">Open ↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-      <div class="figures" style="margin-bottom:2.5rem">
-        {d.metrics.map((m) => (
-          <div>
-            <div class="figure-n">{m.value}</div>
-            <div class="figure-l">{m.label}</div>
-          </div>
-        ))}
-      </div>
+          {Figure && (
+            <figure class="cs-fig">
+              <Figure />
+              <figcaption>Supporting diagram</figcaption>
+            </figure>
+          )}
 
-      {d.artifacts && (
-        <section style="margin-bottom:2.5rem">
-          <h2 class="meta signal" style="margin-bottom:0.5rem">Artifacts</h2>
-          <ul class="linklist">
-            {d.artifacts.map((a) => (
-              <li>
-                <a href={a.href} target="_blank" rel="noopener">
-                  <span>
-                    {a.label}
-                    {a.note && <span class="meta" style="display:block; margin-top:0.15rem">{a.note}</span>}
-                  </span>
-                  <span class="k">Open ↗</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+          <section>
+            <h2>Built with</h2>
+            <p class="built-with">{d.tech.join(' · ')}</p>
+            {d.repo && (
+              <p class="built-with" style="margin-top:0.5rem">
+                <a href={d.repo} target="_blank" rel="noopener" class="signal">View source ↗</a>
+              </p>
+            )}
+          </section>
 
-      <div class="prose">
-        <Content />
-      </div>
-
-      <div style="border-top:1px solid var(--rule); margin-top:3rem; padding:2rem 0 4rem">
-        <a href="/#work" class="btn">← All work</a>
+          <a href="/#work" class="btn">← All case studies</a>
+        </aside>
       </div>
     </div>
   </article>

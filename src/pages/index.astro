@@ -3,262 +3,318 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import heroPortrait from '../assets/aditya-hero.jpg';
 import Base from '../layouts/Base.astro';
-import FigNexus from '../components/figures/FigNexus.astro';
-import FigSafePaste from '../components/figures/FigSafePaste.astro';
-import FigPlacement from '../components/figures/FigPlacement.astro';
-import FigInsurance from '../components/figures/FigInsurance.astro';
-import FigDuolingo from '../components/figures/FigDuolingo.astro';
-
-const figures: Record<string, any> = {
-  nexusims: FigNexus,
-  safepaste: FigSafePaste,
-  'ai-placement': FigPlacement,
-  'insurance-analytics': FigInsurance,
-  'duolingo-onboarding': FigDuolingo,
-};
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 
-const record = [
-  { year: '2025 —', what: 'MS Project Management (STEM), NYU', note: 'GPA 3.91. Building NexusIMS and SafePaste alongside coursework.' },
-  { year: '2024 – 25', what: 'Business Strategy Analyst, Faclon Labs', note: 'Funded IoT startup. Owned a supply-chain product end to end; +20% reliability.' },
-  { year: '2024 – 25', what: 'PG Diploma, Data Science — SDBI', note: 'CGPA 9.05. ML, NLP, predictive modelling.' },
-  { year: '2023 – 24', what: 'Product Lead, AI Placement System', note: 'Four people, three sprints, twelve UAT cases. First time owning a product.' },
-  { year: '2021 – 24', what: 'BS Computer Science, KC College Mumbai', note: 'CGPA 9.73. The reason I can read the codebase I am speccing.' },
+const impact = [
+  { n: '~$40M', l: 'addressable market sized for a North American expansion', s: 'Presented to the CEO and CTO' },
+  { n: '7 days → 24 hrs', l: 'leadership reporting latency, after an 8-KPI framework', s: 'Faclon Labs' },
+  { n: '200+', l: 'user interviews across 3 universities before building', s: 'NextNest' },
+  { n: '60%', l: 'less manual resume screening, as product lead of 4', s: 'AI Placement System' },
+];
+
+const method = [
+  {
+    h: 'Discover',
+    p: 'I start by talking to the people with the problem, and I keep going until the real constraint shows up.',
+    proof: '<b>200+</b> interviews for NextNest. <b>4</b> stakeholder groups interviewed for the Faclon inventory system.',
+  },
+  {
+    h: 'Decide',
+    p: 'I prioritize with RICE so a cut can be defended, and I write down what we are not building and why.',
+    proof: 'Deferred NextNest’s landlord portal and virtual tours on <b>low interview signal and high build cost</b>.',
+  },
+  {
+    h: 'Measure',
+    p: 'I agree on metric definitions before any dashboard exists, and I pick guardrails that are hard to game.',
+    proof: '<b>8-KPI</b> framework that cut reporting from <b>7 days to 24 hours</b>. D7 retention, not completion, as an experiment’s primary metric.',
+  },
+  {
+    h: 'Deliver',
+    p: 'I run the sprints, write the acceptance criteria and sign off on release readiness.',
+    proof: '<b>3</b> sprints, <b>12</b> UAT cases and <b>100%</b> of defects closed before launch.',
+  },
 ];
 ---
 
 <Base>
-  <!-- ============ TITLE BLOCK — renders without JS ============ -->
+  <!-- ============ HERO ============ -->
   <header class="hero wrap">
-    <div class="hero-top">
-      <span class="meta">Portfolio · Product</span>
-      <span class="meta status"><span class="status-dot"></span>Available from January 2027</span>
-    </div>
-
-    <h1 class="display hero-display">I write the spec,<br />then I build it.</h1>
-
     <div class="hero-grid">
-      <div>
-        <p class="body-lg">
-          I'm a product manager with a computer science degree, which means I can write
-          the PRD and then go implement it. I've shipped a multi-tenant inventory platform,
-          an on-device privacy tool, and an NLP screening system that cut manual work by 60%.
-          Right now I'm at NYU finishing a master's and building two products in parallel.
+      <div class="hero-copy">
+        <p class="hero-name">
+          Aditya Singh · Product Manager
+          <span class="status"><span class="status-dot"></span>Available January 2027</span>
         </p>
 
-        <dl class="kv" style="margin-top: 1.75rem">
-          <dt>Role</dt><dd>Product Manager · Business Analyst · Data PM</dd>
-          <dt>Based</dt><dd>New York City — open to remote and hybrid</dd>
-          <dt>Available</dt><dd>From January 2027</dd>
-          <dt>Now</dt><dd>MS Project Management (STEM), NYU — GPA 3.91</dd>
-          <dt>Before</dt><dd>Business Strategy Analyst, Faclon Labs</dd>
-          <dt>Work auth</dt><dd>F-1 · STEM OPT eligible</dd>
-        </dl>
+        <h1 class="display">I turn unclear business problems into shipped products with measurable results.</h1>
 
-        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1.75rem">
-          <a href="#work" class="btn btn--signal">Read the work</a>
-          <a href="mailto:singhadit.505@gmail.com" class="btn">Email me</a>
+        <p class="body-lg">
+          I was the sole product and strategy hire at Faclon Labs, a pre-Series A B2B SaaS company,
+          where I owned the roadmap across three product lines. I’m now finishing an M.S. at NYU
+          (GPA 3.91) and building NextNest, a student housing marketplace shaped by more than 200
+          user interviews. I studied computer science first, so I work closely and credibly with engineers.
+        </p>
+
+        <div class="btn-row">
+          <a href="#work" class="btn btn--primary">See case studies</a>
+          <a href="/resume.pdf" class="btn" target="_blank" rel="noopener">View resume (PDF)</a>
+          <a href="#contact" class="btn">Get in touch</a>
         </div>
+
+        <dl class="kv">
+          <dt>Looking for</dt><dd>Product Manager, Associate PM, Business Analyst and Data PM roles</dd>
+          <dt>Location</dt><dd>New York City area · open to remote, hybrid and on-site</dd>
+          <dt>Work authorization</dt><dd>F-1 · STEM OPT eligible</dd>
+        </dl>
       </div>
 
       <figure class="hero-portrait">
         <Image
           src={heroPortrait}
-          alt="Aditya Singh"
-          widths={[320, 640, 960]}
-          sizes="(max-width: 860px) 100vw, 320px"
+          alt="Portrait of Aditya Singh"
+          widths={[240, 480, 720]}
+          sizes="(max-width: 860px) 180px, 260px"
           fetchpriority="high"
           loading="eager"
         />
-        <figcaption class="figcap">
-          <span>Fig. 0 — A. Singh</span>
-          <span>NYC</span>
-        </figcaption>
       </figure>
+    </div>
+
+    <div class="impact" role="list" aria-label="Selected results">
+      {impact.map((i) => (
+        <div role="listitem">
+          <div class="impact-n">{i.n}</div>
+          <div class="impact-l">{i.l}</div>
+          <div class="impact-s">{i.s}</div>
+        </div>
+      ))}
     </div>
   </header>
 
-  <!-- ============ §01 WORK ============ -->
-  <section class="clause wrap" id="work">
-    <div class="clause-head">
-      <span class="clause-num">§ 01</span>
-      <div>
-        <h2 class="h2">Work</h2>
-        <p class="body-lg" style="margin-top:0.5rem">
-          Four systems I built and one experiment I designed. Each started as a written
-          problem statement and ended as something with numbers attached. The figures are
-          drawn from the real repositories and the real design doc, not decoration.
-        </p>
+  <!-- ============ EXPERIENCE ============ -->
+  <section class="section" id="experience">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Experience</p>
+        <h2 class="h2">Owning product at an early-stage company</h2>
       </div>
+
+      <article class="job rise">
+        <div>
+          <p class="job-when">May 2024 – June 2025</p>
+          <p class="job-org">Mumbai, India</p>
+        </div>
+        <div>
+          <h3 class="job-title">Business Strategy Analyst (Product and Operations)</h3>
+          <p class="job-company">Faclon Labs · Pre-Series A B2B industrial IoT SaaS</p>
+          <p class="job-context">
+            Sole product and strategy hire. Owned the roadmap and delivery across three product lines
+            (inventory, analytics and partner operations) while the company expanded from India into North America.
+          </p>
+          <ul>
+            <li>Shaped the FY2025 North American expansion strategy with TAM/SAM analysis and a competitor assessment across three industrial IoT verticals, <strong>quantifying a ~$40M addressable market</strong> and presenting a prioritized recommendation to the CEO and CTO.</li>
+            <li>Owned the full lifecycle of the company’s inventory management system: ran discovery interviews with four stakeholder groups (operations, logistics, engineering, sales) and wrote a specification of <strong>20+ requirements with measurable success criteria</strong>.</li>
+            <li>Improved <strong>supply chain reliability by 20%</strong> through the resulting feature set, with <strong>adoption across three business units within eight weeks</strong> of launch.</li>
+            <li>Cut leadership <strong>reporting latency from seven days to 24 hours</strong> and <strong>reduced ad-hoc data requests by 35%</strong> by defining an eight-KPI framework and delivering four self-serve dashboards.</li>
+            <li>Reduced <strong>cross-team coordination delays by 30%</strong> across three partner cohorts by mapping failure points in channel-partner onboarding and rebuilding it with milestones and accountability checkpoints.</li>
+            <li>Ran user acceptance testing across releases: wrote test cases, led feedback sessions with business users, tracked defects to closure and signed off on release readiness.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="job rise">
+        <div>
+          <p class="job-when">Aug 2023 – Feb 2024</p>
+          <p class="job-org">Mumbai, India</p>
+        </div>
+        <div>
+          <h3 class="job-title">Product Lead, AI Placement System</h3>
+          <p class="job-company">Four-person team · College placement cell</p>
+          <ul>
+            <li>Achieved a <strong>30% end-to-end efficiency gain</strong> and a <strong>60% reduction in manual screening time</strong> by bringing generative AI into the candidate screening workflow.</li>
+            <li>Wrote the PRD with user stories and acceptance criteria, prioritized the backlog with RICE and ran three delivery sprints from discovery through UAT to deployment.</li>
+          </ul>
+        </div>
+      </article>
     </div>
-
-    {projects.map((p, i) => {
-      const Figure = figures[p.id];
-      return (
-        <article class="spec rise" id={p.id}>
-          <div class="spec-bar">
-            <span class="meta">Spec / {String(i + 1).padStart(2, '0')} — {p.data.category}</span>
-            <span class="meta">{p.data.year}</span>
-          </div>
-          <div class="spec-body">
-            <div class="spec-text">
-              <h3 class="spec-title"><a href={`/work/${p.id}`}>{p.data.title}</a></h3>
-              <p class="spec-thesis">{p.data.tagline}</p>
-
-              <div class="figures">
-                {p.data.metrics.map((m) => (
-                  <div>
-                    <div class="figure-n">{m.value}</div>
-                    <div class="figure-l">{m.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div class="stack-run" style="margin-bottom:1.25rem">
-                {p.data.tech.map((t) => <span>{t}</span>)}
-              </div>
-
-              <a href={`/work/${p.id}`} class="readmore">
-                {p.data.kind === 'experiment' ? 'Read the design' : 'Read the case study'} →
-              </a>
-
-              {p.data.artifacts && (
-                <p class="meta" style="margin-top:0.9rem">
-                  Artifacts — {p.data.artifacts.map((a) => a.label).join(' · ')}
-                </p>
-              )}
-            </div>
-            <div class="spec-fig">
-              {Figure && <Figure />}
-            </div>
-          </div>
-        </article>
-      );
-    })}
   </section>
 
-  <!-- ============ §02 RECORD ============ -->
-  <section class="clause wrap" id="record">
-    <div class="clause-head">
-      <span class="clause-num">§ 02</span>
-      <div>
-        <h2 class="h2">Record</h2>
-        <p class="body-lg" style="margin-top:0.5rem">
-          Computer science, then strategy, then product. In that order, on purpose.
+  <!-- ============ CASE STUDIES ============ -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Case studies</p>
+        <h2 class="h2">The problem, the call I made, and what happened</h2>
+        <p class="body-lg">
+          Each one starts with a problem statement and ends with a decision or a number.
+          The write-ups cover the trade-offs, including what I chose not to build.
         </p>
       </div>
-    </div>
 
-    <table class="ruled rise">
-      <thead>
-        <tr><th style="width:7rem">Year</th><th style="width:22rem">What</th><th class="c-note">Note</th></tr>
-      </thead>
-      <tbody>
-        {record.map((r) => (
-          <tr>
-            <td class="c-year">{r.year}</td>
-            <td class="c-what">{r.what}</td>
-            <td class="c-note">{r.note}</td>
-          </tr>
+      <div class="work-grid">
+        {projects.map((p) => (
+          <article class={`case rise${p.data.featured ? ' case--featured' : ''}`} id={p.id}>
+            <div class="case-top">
+              <span>{p.data.category}</span>
+              <span>{p.data.timeframe ?? p.data.year}</span>
+            </div>
+            <h3 class="case-title"><a href={`/work/${p.id}`}>{p.data.title}</a></h3>
+            <p class="case-thesis">{p.data.tagline}</p>
+            {p.data.role && <p class="case-role"><b>My role:</b> {p.data.role}</p>}
+
+            <div class="figures">
+              {p.data.metrics.map((m) => (
+                <div>
+                  <div class="figure-n">{m.value}</div>
+                  <div class="figure-l">{m.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {p.data.skills.length > 0 && (
+              <ul class="chips" aria-label="Product skills">
+                {p.data.skills.map((s) => <li>{s}</li>)}
+              </ul>
+            )}
+
+            <a href={`/work/${p.id}`} class="readmore">
+              {p.data.kind === 'experiment' ? 'Read the experiment design' : 'Read the case study'} <span aria-hidden="true">→</span>
+            </a>
+          </article>
         ))}
-      </tbody>
-    </table>
-  </section>
-
-  <!-- ============ §03 APPROACH ============ -->
-  <section class="clause wrap" id="approach">
-    <div class="clause-head">
-      <span class="clause-num">§ 03</span>
-      <div>
-        <h2 class="h2">Approach</h2>
-      </div>
-    </div>
-
-    <div class="doc rise">
-      <aside class="doc-margin">
-        <p>On method</p>
-        <p style="margin-top:0.75rem" class="signal">↓</p>
-      </aside>
-      <div class="doc-body">
-        <p>
-          I started in computer science and spent three years learning how systems actually
-          fail. Then I found out the expensive failures are almost never technical. They're
-          a team shipping the wrong thing quickly, or arguing for six weeks because nobody
-          wrote down what "churn" means.
-        </p>
-        <p>
-          So my process is boring on purpose. <strong>Write the problem down first.</strong> At
-          Faclon Labs that meant sitting with the supply-chain team until the actual constraint
-          surfaced, which was reconciliation lag, not forecasting. On the insurance dashboard it
-          meant refusing to build a chart until eight metrics had agreed formulas. That
-          argument was the deliverable; the dashboard was just the artifact.
-        </p>
-        <p>
-          <strong>Then sequence honestly.</strong> RICE is not a magic ranking, it's a way to make
-          the cut defensible when scope pressure arrives mid-sprint — and it always does. On the
-          placement system it's why we shipped the parser and the ranker before anyone's
-          favourite analytics view.
-        </p>
-        <p>
-          <strong>Then build it.</strong> This is the part I'd rather not outsource. NexusIMS is
-          165 source files I wrote against a system design I wrote, and speccing a module
-          marketplace teaches you things about permission scoping that no amount of roadmap
-          review does. I don't think every PM needs to code. I do think the ones who can
-          write better specs.
-        </p>
       </div>
     </div>
   </section>
 
-  <!-- ============ §04 CONTACT ============ -->
-  <section class="clause wrap" id="contact">
-    <div class="clause-head">
-      <span class="clause-num">§ 04</span>
-      <div>
-        <h2 class="h2">Contact</h2>
-        <p class="body-lg" style="margin-top:0.5rem">
-          I'm looking for product, business analyst, and data PM roles starting January 2027,
-          and I'd rather start the conversation early than late. If you have a problem that
-          isn't well defined yet, that's the interesting kind.
+  <!-- ============ HOW I WORK ============ -->
+  <section class="section" id="approach">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How I work</p>
+        <h2 class="h2">The expensive failures are rarely technical</h2>
+        <p class="body-lg">
+          They come from a team shipping the wrong thing quickly, or arguing for six weeks because
+          nobody wrote down what “churn” means. My process is built to prevent both.
         </p>
       </div>
+
+      <div class="method rise">
+        {method.map((m) => (
+          <div>
+            <h3>{m.h}</h3>
+            <p>{m.p}</p>
+            <p class="proof" set:html={m.proof} />
+          </div>
+        ))}
+      </div>
+
+      <p class="note">
+        My computer science degree means I can read the codebase behind a spec, size work
+        realistically with engineers and prototype an idea when that is the fastest way to test it.
+        I treat that as a way to make better product decisions, not as the job itself.
+      </p>
     </div>
+  </section>
 
-    <div class="colophon rise">
-      <form id="contactForm">
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
-        <input type="hidden" name="subject" value="New message from singhadit.com" />
-        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
-        <div class="field">
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required autocomplete="name" />
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" required autocomplete="email" />
-        </div>
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="btn btn--signal">Send</button>
-        <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
-      </form>
-
+  <!-- ============ EDUCATION + SKILLS ============ -->
+  <section class="section" id="education">
+    <div class="wrap two-col">
       <div>
-        <ul class="linklist">
-          <li><a href="mailto:singhadit.505@gmail.com"><span>singhadit.505@gmail.com</span><span class="k">Email</span></a></li>
-          <li><a href="https://www.linkedin.com/in/singh-aditya59/" target="_blank" rel="noopener"><span>singh-aditya59</span><span class="k">LinkedIn</span></a></li>
-          <li><a href="https://github.com/Adityasingh59" target="_blank" rel="noopener"><span>Adityasingh59</span><span class="k">GitHub</span></a></li>
-          <li><a href="/resume.pdf" download><span>Curriculum vitae</span><span class="k">PDF</span></a></li>
+        <p class="eyebrow">Education</p>
+        <h2 class="h3" style="margin-top:0.6rem">Computer science, then data, then product</h2>
+        <ul class="edu">
+          <li>
+            <b>M.S. Project Management (STEM)</b>
+            <span>New York University, School of Professional Studies · GPA 3.91</span>
+            <small>2025 – 2027 · Product Strategy, Data-Driven Decision Making, Business Analysis, Agile</small>
+          </li>
+          <li>
+            <b>Post Graduate Diploma, Data Science and Business Analytics</b>
+            <span>Mumbai University, Patkar Varde College · 9.05 / 10</span>
+            <small>2024 – 2025</small>
+          </li>
+          <li>
+            <b>B.S. Computer Science</b>
+            <span>Kishinchand Chellaram College · 9.73 / 10</span>
+            <small>2021 – 2024</small>
+          </li>
         </ul>
-        <p class="meta" style="margin-top:1.5rem; line-height:1.8">
-          Based in New York City<br />
-          Available from January 2027<br />
-          Open to remote · hybrid · on-site<br />
-          F-1 visa · STEM OPT eligible
+      </div>
+
+      <div>
+        <p class="eyebrow">Skills</p>
+        <h2 class="h3" style="margin-top:0.6rem">What I bring to a product team</h2>
+        <div class="skills">
+          <div>
+            <h4>Product</h4>
+            <p>Customer discovery and user interviews, PRDs and user stories, roadmap planning, RICE and ICE prioritization, go-to-market strategy, OKRs</p>
+          </div>
+          <div>
+            <h4>Strategy and analysis</h4>
+            <p>Market sizing (TAM/SAM), competitive assessment, process and gap analysis, stakeholder management, executive communication</p>
+          </div>
+          <div>
+            <h4>Data and experimentation</h4>
+            <p>KPI definition, A/B test design, funnel analysis, SQL, Power BI, Tableau, Python, Google Analytics</p>
+          </div>
+          <div>
+            <h4>Delivery and tools</h4>
+            <p>Agile and Scrum, sprint planning, UAT, Jira, Confluence, Notion, Figma</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Contact</p>
+        <h2 class="h2">Let’s talk about your product</h2>
+        <p class="body-lg">
+          I’m looking for product, business analyst and data PM roles starting January 2027,
+          and I’m happy to start the conversation early. The problems I like most are the ones
+          that aren’t well defined yet.
         </p>
+      </div>
+
+      <div class="contact-grid">
+        <form id="contactForm">
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="subject" value="New message from singhadit.com" />
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Send message</button>
+          <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+        </form>
+
+        <div>
+          <ul class="linklist">
+            <li><a href="mailto:singhadit.505@gmail.com"><span>singhadit.505@gmail.com</span><span class="k">Email</span></a></li>
+            <li><a href="https://www.linkedin.com/in/singh-aditya59/" target="_blank" rel="noopener"><span>linkedin.com/in/singh-aditya59</span><span class="k">LinkedIn</span></a></li>
+            <li><a href="/resume.pdf" target="_blank" rel="noopener"><span>Resume</span><span class="k">PDF</span></a></li>
+            <li><a href="https://github.com/Adityasingh59" target="_blank" rel="noopener"><span>github.com/Adityasingh59</span><span class="k">GitHub</span></a></li>
+          </ul>
+          <p class="muted" style="margin-top:1.5rem; line-height:1.8">
+            New York City area<br />
+            Available from January 2027<br />
+            Open to remote, hybrid and on-site<br />
+            F-1 visa · STEM OPT eligible
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -276,7 +332,7 @@ const record = [
     if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY') {
       const name = encodeURIComponent(String(data.get('name') || ''));
       const msg = encodeURIComponent(String(data.get('message') || ''));
-      note.textContent = 'Opening your email client…';
+      note.textContent = 'Opening your email app…';
       note.className = 'form-note ok';
       window.location.href = `mailto:singhadit.505@gmail.com?subject=Portfolio enquiry from ${name}&body=${msg}`;
       return;
@@ -292,11 +348,11 @@ const record = [
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.message || 'failed');
-      note.textContent = 'Sent. I’ll reply shortly.';
+      note.textContent = 'Sent. I’ll reply soon.';
       note.className = 'form-note ok';
       form.reset();
     } catch (err) {
-      note.textContent = 'Failed to send — email singhadit.505@gmail.com directly.';
+      note.textContent = 'That didn’t send. Please email singhadit.505@gmail.com directly.';
       note.className = 'form-note error';
     }
   });

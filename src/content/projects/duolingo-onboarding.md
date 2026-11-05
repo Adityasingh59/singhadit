@@ -5,6 +5,11 @@ summary: A fully specified three-arm experiment on Duolingo's pre-lesson intake 
 category: Experiment Design
 year: "2026"
 order: 2
+skills:
+  - Experiment design
+  - Metric trees
+  - Guardrail metrics
+  - Decision rules
 kind: experiment
 featured: false
 emoji: "🧪"
