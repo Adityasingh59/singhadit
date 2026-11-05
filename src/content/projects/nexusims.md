@@ -32,26 +32,25 @@ repo: https://github.com/Adityasingh59
 
 Most inventory tools force a choice: spreadsheets that don't scale, or enterprise suites that are too heavy and too expensive for growing operations. Teams running multiple warehouses end up stitching together exports, manual counts, and tribal knowledge — and the gaps show up as stockouts, dead capital, and reconciliation headaches.
 
-I wanted to answer a harder question than "can I build an app?" — **can I run the full product lifecycle**, from problem framing to a deployable, multi-tenant system that another company could actually adopt?
+I wanted to answer a harder question than "can I ship features?": **can I run the full product lifecycle**, from problem framing to a deployable, multi-tenant system that another company could actually adopt?
 
 ## How I approached it
 
 I treated NexusIMS like a funded product, not a coding exercise.
 
 - **Discovery & PRD.** I wrote a formal product requirements document defining the target user (operations leads at multi-warehouse SMBs), the jobs-to-be-done, and the non-negotiables: multi-tenancy, auditability, and real-time stock accuracy.
-- **System design first.** Before code, I mapped the data model, tenancy isolation strategy, auth flows, and module boundaries. That design doc is what kept ten modules coherent instead of sprawling.
+- **Scope before build.** Before any build work, I defined how each customer's data stays separate, who can see and change what, and where each module starts and ends. That scope document is what kept ten modules coherent instead of sprawling.
 - **Scoped to a real MVP.** I sequenced modules by RICE — auth, warehouses, and stock movements shipped before nice-to-haves like reporting dashboards.
 
-## What I built
+## What shipped
 
-- **10 functional modules** spanning authentication, multi-warehouse tracking, bill-of-materials (BOM) processing, barcode generation/scanning APIs, purchase orders, and stock reconciliation.
-- **Multi-tenant architecture** with JWT-based auth and per-tenant data isolation, so a single deployment serves multiple organizations safely.
-- **FastAPI + PostgreSQL 16** backend with Redis for caching hot lookups, a **React 18** frontend, and **Docker** for reproducible environments.
-- **Full CI/CD** so every change is tested and shippable.
+- **Ten modules** covering sign-in and permissions, multi-warehouse stock tracking, bills of materials, barcode scanning, purchase orders and stock reconciliation.
+- **One product serving many companies,** with each company's data kept fully separate, so it could be offered as SaaS rather than installed customer by customer.
+- **Auditability built in,** so operations leads can see who moved what stock and when.
 
 ## Outcome
 
-NexusIMS is a working, production-grade system — not a demo. It demonstrates the thing I care most about as a PM: the ability to take a vague operational pain point, structure it into a spec, and drive it all the way to something deployable, observable, and maintainable.
+NexusIMS is a working product, not a demo. It shows what I care about most as a PM: taking a vague operational pain point, structuring it into a clear spec and an MVP, and driving it all the way to something a team could actually adopt.
 
 ## What I'd do next
 

@@ -1,7 +1,7 @@
 ---
 title: AI Placement System
 tagline: As product lead for a four-person team, cut manual resume screening by 60% for a college placement cell.
-summary: Product Lead on a 4-person team. Authored the PRD with RICE-prioritized features and integrated Gemini-Pro NLP for resume screening — 60% less manual effort, validated across 12 UAT cases with 100% defect resolution pre-launch.
+summary: Product Lead on a 4-person team. Authored the PRD with RICE-prioritized features and brought generative AI into resume screening — 60% less manual effort, validated across 12 UAT cases with 100% defect resolution pre-launch.
 category: AI · Education Tech
 year: "2024"
 order: 3
@@ -39,9 +39,9 @@ This was my first time **owning a product end-to-end with a team**, and I leaned
 - **Three Agile sprints.** I ran the team across three sprints with clear sprint goals, standups, and a shared definition of done.
 - **Quality as a gate.** I defined 12 UAT test cases up front. Nothing shipped until defects were resolved — we hit 100% resolution before launch.
 
-## What we built
+## What we shipped
 
-A resume-screening system that uses **Google Gemini-Pro NLP** to parse résumés, extract structured signals, and rank candidates against role criteria — wrapped in a Flask app backed by MySQL.
+A screening tool that reads each résumé, pulls out the signals coordinators actually cared about, and ranks candidates against each role's criteria, using generative AI. Coordinators review a ranked shortlist instead of reading every résumé from scratch.
 
 ## Outcome
 

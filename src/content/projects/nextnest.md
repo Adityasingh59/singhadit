@@ -49,9 +49,9 @@ I scored every candidate feature with RICE and let the interview signal set the 
 - **Shipped: escrow-backed furniture bundles.** Furniture was the second-most-mentioned source of anxiety. Holding payment until after move-in removes the "I paid and the desk never showed up" failure.
 - **Deferred: the landlord portal and virtual tours.** Both sound essential in a pitch. In interviews they drew low signal against a high build cost, so I cut them from the first phase and wrote down why.
 
-## What's built
+## Beyond the core flow
 
-Beyond the core flow, NextNest has a **deterministic fit-score model** that ranks seekers against a listing, and a **trust and scam-detection layer** that uses the Claude API, with a rules-based fallback for when the model is unavailable. I validated the whole funnel end to end with a bot harness that generates live traffic, so funnel analytics could be checked before real users arrive.
+Two more pieces came straight out of the interviews. **Fit-based matching** ranks interested students by how well they fit a listing, so the person handing off a lease reviews a shortlist instead of a pile of messages. An **AI-assisted trust layer** flags likely scams, with a rules-based backup so safety never depends on a single system. Before launch, I ran the full journey with simulated users so the funnel metrics would be trustworthy from the first real visitor.
 
 ## How I'll measure it
 

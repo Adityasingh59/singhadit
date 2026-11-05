@@ -1,7 +1,7 @@
 ---
 title: Insurance Analytics Platform
 tagline: Cut ad-hoc reporting requests by 40% across three teams by getting everyone to agree on eight KPI definitions first.
-summary: Defined an 8-KPI operational framework (claims throughput, risk exposure, churn signal) and built a self-serve Power BI dashboard with an NLP sentiment pipeline across 500+ records to surface risk signals in real time.
+summary: Defined an 8-KPI operational framework (claims throughput, risk exposure, churn signal) and delivered it as a self-serve dashboard, with sentiment analysis across 500+ records to surface risk signals.
 category: Data Product · Analytics
 year: "2024"
 order: 4
@@ -27,15 +27,15 @@ metrics:
 
 ## The problem
 
-The operations team lived on ad-hoc data pulls. Every question — "how's claims throughput this week?", "where's churn risk concentrated?" — turned into a manual SQL request and a one-off chart. Analysts were a bottleneck, decisions lagged the data, and nobody agreed on what the numbers even meant.
+The operations team lived on ad-hoc data pulls. Every question — "how's claims throughput this week?", "where's churn risk concentrated?" — turned into a manual data request and a one-off chart. Analysts were a bottleneck, decisions lagged the data, and nobody agreed on what the numbers even meant.
 
 ## How I approached it
 
 I treated this as a **data product**, where the real deliverable wasn't a chart — it was a shared definition of truth.
 
 - **KPI framework first.** I worked with stakeholders to define **8 operational KPIs** — claims throughput, risk exposure, churn signal, and more — with explicit formulas. Agreeing on definitions was 80% of the value.
-- **Self-serve over bespoke.** Instead of answering questions, I built a Power BI dashboard (DAX measures over a SQL model) that let the team answer their own — killing the request queue.
-- **Unstructured signal, too.** I added an NLP sentiment pipeline (TF-IDF) across 500+ free-text records to surface operational risk signals that structured fields missed.
+- **Self-serve over bespoke.** Instead of answering questions one by one, I delivered a self-serve Power BI dashboard that let the team answer their own, which emptied the request queue.
+- **Unstructured signal, too.** I added sentiment analysis across 500+ free-text records to surface operational risk signals that the structured fields missed.
 
 ## Outcome
 

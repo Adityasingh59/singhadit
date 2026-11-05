@@ -8,7 +8,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 
 const impact = [
   { n: '~$40M', l: 'addressable market sized for a North American expansion', s: 'Presented to the CEO and CTO' },
-  { n: '7 days → 24 hrs', l: 'leadership reporting latency, after an 8-KPI framework', s: 'Faclon Labs' },
+  { n: '<span class="nw">7 days</span> → <span class="nw">24 hrs</span>', l: 'leadership reporting latency, after an 8-KPI framework', s: 'Faclon Labs' },
   { n: '200+', l: 'user interviews across 3 universities before building', s: 'NextNest' },
   { n: '60%', l: 'less manual resume screening, as product lead of 4', s: 'AI Placement System' },
 ];
@@ -65,10 +65,10 @@ const method = [
         </h1>
 
         <p class="body-lg">
-          I was the sole product and strategy hire at Faclon Labs, a pre-Series A B2B SaaS company,
-          where I owned the roadmap across three product lines. I’m now finishing an M.S. at NYU
-          (GPA 3.91) and building NextNest, a student housing marketplace shaped by more than 200
-          user interviews. I studied computer science first, so I work closely and credibly with engineers.
+          At Faclon Labs, a pre-Series A B2B SaaS company, I owned the product roadmap across three
+          product lines and turned customer research into features, metrics and launches. I’m now
+          finishing an M.S. at NYU (GPA 3.91) and leading NextNest, a student housing marketplace
+          shaped by more than 200 user interviews.
         </p>
 
         <div class="btn-row">
@@ -93,14 +93,14 @@ const method = [
           fetchpriority="high"
           loading="eager"
         />
-        <figcaption class="hero-badge"><b>Sole PM hire</b> at a pre-Series A startup</figcaption>
+        <figcaption class="hero-badge"><b>Roadmap owner</b> · 3 product lines</figcaption>
       </figure>
     </div>
 
     <div class="impact" role="list" aria-label="Selected results">
       {impact.map((i, idx) => (
         <div role="listitem" style={`--i:${idx}`}>
-          <div class="impact-n">{i.n}</div>
+          <div class="impact-n" set:html={i.n} />
           <div class="impact-l">{i.l}</div>
           <div class="impact-s">{i.s}</div>
         </div>
@@ -135,8 +135,8 @@ const method = [
           <h3 class="job-title">Business Strategy Analyst (Product and Operations)</h3>
           <p class="job-company">Faclon Labs · Pre-Series A B2B industrial IoT SaaS</p>
           <p class="job-context">
-            Sole product and strategy hire. Owned the roadmap and delivery across three product lines
-            (inventory, analytics and partner operations) while the company expanded from India into North America.
+            Owned the product roadmap and delivery across three product lines (inventory, analytics and
+            partner operations) while the company expanded from India into North America.
           </p>
           <ul>
             <li>Shaped the FY2025 North American expansion strategy with TAM/SAM analysis and a competitor assessment across three industrial IoT verticals, <strong>quantifying a ~$40M addressable market</strong> and presenting a prioritized recommendation to the CEO and CTO.</li>
@@ -237,9 +237,8 @@ const method = [
       </div>
 
       <p class="note rise">
-        My computer science degree means I can read the codebase behind a spec, size work
-        realistically with engineers and prototype an idea when that is the fastest way to test it.
-        I treat that as a way to make better product decisions, not as the job itself.
+        I work across engineering, design, sales and leadership, and I keep everyone working from
+        the same written problem statement, the same priorities and the same definition of success.
       </p>
     </div>
   </section>
@@ -249,7 +248,7 @@ const method = [
     <div class="wrap two-col" data-stagger>
       <div>
         <p class="eyebrow">Education</p>
-        <h2 class="h3" style="margin-top:0.6rem">Computer science, then data, then product</h2>
+        <h2 class="h3" style="margin-top:0.6rem">Trained in product strategy, analytics and delivery</h2>
         <ul class="edu">
           <li>
             <b>M.S. Project Management (STEM)</b>
@@ -283,7 +282,7 @@ const method = [
           </div>
           <div>
             <h4>Data and experimentation</h4>
-            <p>KPI definition, A/B test design, funnel analysis, SQL, Power BI, Tableau, Python, Google Analytics</p>
+            <p>KPI definition, A/B test design, funnel analysis, product analytics, Power BI, Tableau, Google Analytics</p>
           </div>
           <div>
             <h4>Delivery and tools</h4>
@@ -333,7 +332,6 @@ const method = [
             <li><a href="mailto:singhadit.505@gmail.com"><span>singhadit.505@gmail.com</span><span class="k">Email</span></a></li>
             <li><a href="https://www.linkedin.com/in/singh-aditya59/" target="_blank" rel="noopener"><span>linkedin.com/in/singh-aditya59</span><span class="k">LinkedIn</span></a></li>
             <li><a href="/resume.pdf" target="_blank" rel="noopener"><span>Resume</span><span class="k">PDF</span></a></li>
-            <li><a href="https://github.com/Adityasingh59" target="_blank" rel="noopener"><span>github.com/Adityasingh59</span><span class="k">GitHub</span></a></li>
           </ul>
           <p class="muted" style="margin-top:1.5rem; line-height:1.8">
             New York City area<br />

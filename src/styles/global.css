@@ -190,6 +190,7 @@ a { color: inherit; }
   letter-spacing: -0.02em; line-height: 1.05; color: var(--signal);
   font-variant-numeric: tabular-nums;
 }
+.impact-n .nw { white-space: nowrap; }
 .impact-l { font-size: 0.92rem; line-height: 1.45; color: var(--ink-2); margin-top: 0.4rem; }
 .impact-s { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.3rem; }
 

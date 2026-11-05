@@ -28,19 +28,19 @@ repo: https://github.com/Adityasingh59/SafePaste
 
 ## The problem
 
-People paste anything into AI chat tools — API keys, customer PII, internal docs — because it's frictionless and the output is useful. The privacy cost is invisible until it isn't. Existing DLP tools are enterprise, server-side, and heavy. Nothing protected the individual at the exact moment of risk: **the paste**.
+People paste anything into AI chat tools — API keys, customer PII, internal docs — because it's frictionless and the output is useful. The privacy cost is invisible until it isn't. Existing data-loss tools are built for enterprises and are heavy to roll out. Nothing protected the individual at the exact moment of risk: **the paste**.
 
 ## How I approached it
 
 I framed this as a product with one ruthless constraint: it has to be **invisible and instant**, or no one will keep it on. That shaped every decision.
 
 - **On-device only.** Sending clipboard contents to a server to "check for sensitive data" would defeat the purpose. Everything runs locally — zero network calls.
-- **Latency budget as a spec.** I set a hard target of sub-500ms so redaction never interrupts flow. That budget ruled out heavyweight models and pushed me toward a layered regex + lightweight NLP approach.
-- **Precision over recall, tuned.** False positives that mangle harmless text are as bad as misses. I set precision, false-positive and latency targets before writing code, then tuned detectors across PII, API keys and credentials against them.
+- **Speed as a requirement.** I set a hard target of under half a second so redaction never interrupts someone's flow. That target ruled out heavyweight AI models and pointed to lightweight detection instead.
+- **Precision over recall, tuned.** False positives that mangle harmless text are as bad as misses. I set accuracy, false-alarm and speed targets before building anything, then tuned detectors across PII, API keys and credentials against them.
 
-## What I built
+## What shipped
 
-A clipboard-level privacy layer that intercepts paste events, classifies content across six or more sensitive categories, and redacts in place before the data reaches any AI tool — all locally, under half a second.
+A privacy layer that checks text at the moment you paste, recognizes six or more categories of sensitive data, and redacts them before anything reaches an AI tool. It all happens on the user's own device, in under half a second.
 
 ## Outcome
 

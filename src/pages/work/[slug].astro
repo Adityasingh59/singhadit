@@ -1,16 +1,13 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import FigNexus from '../../components/figures/FigNexus.astro';
-import FigSafePaste from '../../components/figures/FigSafePaste.astro';
 import FigPlacement from '../../components/figures/FigPlacement.astro';
 import FigInsurance from '../../components/figures/FigInsurance.astro';
 import FigDuolingo from '../../components/figures/FigDuolingo.astro';
 
-// Supporting diagrams. They sit beside the story, never ahead of it.
+// Product diagrams (experiment design, KPI framework, prioritization).
+// They sit beside the story, never ahead of it.
 const figures: Record<string, any> = {
-  nexusims: FigNexus,
-  safepaste: FigSafePaste,
   'ai-placement': FigPlacement,
   'insurance-analytics': FigInsurance,
   'duolingo-onboarding': FigDuolingo,
@@ -84,16 +81,6 @@ const Figure = figures[project.id];
               <figcaption>Supporting diagram</figcaption>
             </figure>
           )}
-
-          <section>
-            <h2>Built with</h2>
-            <p class="built-with">{d.tech.join(' · ')}</p>
-            {d.repo && (
-              <p class="built-with" style="margin-top:0.5rem">
-                <a href={d.repo} target="_blank" rel="noopener" class="signal">View source ↗</a>
-              </p>
-            )}
-          </section>
 
           <a href="/#work" class="btn">← All case studies</a>
         </aside>
