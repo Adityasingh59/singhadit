@@ -15,7 +15,7 @@ const impact = [
 
 // Headline, split into words so each can slide up in turn
 const headWords = 'I turn unclear business problems into shipped products with'.split(' ');
-const headMark = 'measurable results.';
+const headMark = ['measurable', 'results.'];
 
 const ticker = [
   'Customer discovery', 'Product strategy', 'PRDs and user stories', 'RICE prioritization',
@@ -55,13 +55,13 @@ const method = [
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="hero-name">
-          Aditya Singh · Product Manager
-          <span class="status"><span class="status-dot"></span>Available January 2027</span>
+          <span class="hn"><span class="hn-name">Aditya Singh</span><span class="hn-sep"> · </span><span class="hn-role">Product Manager</span></span>
+          <span class="status"><span class="status-dot"></span><span>Available <span class="m-full">January</span><span class="m-abbr">Jan</span> 2027</span></span>
         </p>
 
         <h1 class="display">
           {headWords.map((w, i) => (<><span class="wm"><span class="w" style={`--i:${i}`}>{w}</span></span>{' '}</>))}
-          <span class="wm"><span class="w mark" style={`--i:${headWords.length}`}>{headMark}</span></span>
+          {headMark.map((w, i) => (<><span class="wm"><span class="w mark" style={`--i:${headWords.length + i}; --m:${i}`} set:html={i < headMark.length - 1 ? `${w}&nbsp;` : w} /></span></>))}
         </h1>
 
         <p class="body-lg">
@@ -89,7 +89,7 @@ const method = [
           src={heroPortrait}
           alt="Portrait of Aditya Singh"
           widths={[240, 480, 720]}
-          sizes="(max-width: 860px) 180px, 260px"
+          sizes="(max-width: 860px) 200px, 260px"
           fetchpriority="high"
           loading="eager"
         />
