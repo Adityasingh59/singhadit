@@ -157,12 +157,16 @@ a { color: inherit; }
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(2.75rem, 7vw, 5rem) clamp(2.5rem, 5vw, 3.5rem); }
 .hero-grid {
-  display: grid; grid-template-columns: minmax(0, 1fr) 260px;
+  display: grid; grid-template-columns: minmax(0, 1fr) clamp(280px, 30vw, 380px);
   gap: clamp(2rem, 5vw, 4rem); align-items: start;
 }
 .hero-copy { display: grid; gap: 1.4rem; min-width: 0; }
 .hero-name { font-size: 1.05rem; font-weight: 700; color: var(--ink-2); display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
-.hero-portrait img { width: 100%; height: auto; border-radius: var(--radius); }
+.hero-portrait img {
+  width: 100%; height: auto; border-radius: var(--radius);
+  /* the source photo has a white strip along its bottom edge; crop it off */
+  aspect-ratio: 952 / 1264; object-fit: cover; object-position: 50% 0;
+}
 
 .status {
   display: inline-flex; align-items: center; gap: 0.45rem;
