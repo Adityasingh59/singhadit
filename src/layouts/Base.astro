@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import '../styles/global.css';
 
@@ -54,17 +55,24 @@ const year = new Date().getFullYear();
 
     <script is:inline>
       (function () {
-        try {
-          var s = localStorage.getItem('theme');
-          var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+        function apply(doc) {
+          try {
+            var s = localStorage.getItem('theme');
+            var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            doc.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
+          } catch (e) {
+            doc.documentElement.setAttribute('data-theme', 'light');
+          }
         }
+        apply(document);
+        // Client-side navigation swaps <html>; keep the chosen theme across it.
+        document.addEventListener('astro:before-swap', function (e) { apply(e.newDocument); });
       })();
     </script>
+    <ClientRouter />
   </head>
   <body>
+    <div class="progress" id="progress" aria-hidden="true"></div>
     <Nav />
     <main>
       <slot />
@@ -78,26 +86,7 @@ const year = new Date().getFullYear();
     </footer>
 
     <script>
-      document.getElementById('themeToggle')?.addEventListener('click', () => {
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
-      });
-
-      // Gentle reveal below the fold. Base state is visible, so nothing
-      // depends on this script running.
-      const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const items = document.querySelectorAll<HTMLElement>('.rise');
-      if (!still && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            e.target.classList.add('in');
-            io.unobserve(e.target);
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
-        items.forEach((el) => io.observe(el));
-      }
+      import '../scripts/motion.ts';
     </script>
   </body>
 </html>

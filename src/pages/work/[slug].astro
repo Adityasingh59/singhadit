@@ -32,7 +32,7 @@ const Figure = figures[project.id];
     <header class="cs-head wrap">
       <a href="/#work" class="cs-back">← All case studies</a>
       <p class="eyebrow">{d.category}</p>
-      <h1 class="cs-title">{d.title}</h1>
+      <h1 class="cs-title" transition:name={`title-${project.id}`}>{d.title}</h1>
       <p class="cs-thesis">{d.tagline}</p>
     </header>
 

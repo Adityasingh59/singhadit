@@ -13,6 +13,16 @@ const impact = [
   { n: '60%', l: 'less manual resume screening, as product lead of 4', s: 'AI Placement System' },
 ];
 
+// Headline, split into words so each can slide up in turn
+const headWords = 'I turn unclear business problems into shipped products with'.split(' ');
+const headMark = 'measurable results.';
+
+const ticker = [
+  'Customer discovery', 'Product strategy', 'PRDs and user stories', 'RICE prioritization',
+  'Market sizing', 'KPI frameworks', 'A/B test design', 'Roadmapping', 'Funnel analysis',
+  'Stakeholder management', 'Go-to-market', 'Sprint planning', 'UAT and release sign-off',
+];
+
 const method = [
   {
     h: 'Discover',
@@ -39,7 +49,9 @@ const method = [
 
 <Base>
   <!-- ============ HERO ============ -->
-  <header class="hero wrap">
+  <header class="hero-band">
+   <div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+   <div class="hero wrap">
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="hero-name">
@@ -47,7 +59,10 @@ const method = [
           <span class="status"><span class="status-dot"></span>Available January 2027</span>
         </p>
 
-        <h1 class="display">I turn unclear business problems into shipped products with measurable results.</h1>
+        <h1 class="display">
+          {headWords.map((w, i) => (<><span class="wm"><span class="w" style={`--i:${i}`}>{w}</span></span>{' '}</>))}
+          <span class="wm"><span class="w mark" style={`--i:${headWords.length}`}>{headMark}</span></span>
+        </h1>
 
         <p class="body-lg">
           I was the sole product and strategy hire at Faclon Labs, a pre-Series A B2B SaaS company,
@@ -78,19 +93,28 @@ const method = [
           fetchpriority="high"
           loading="eager"
         />
+        <figcaption class="hero-badge"><b>Sole PM hire</b> at a pre-Series A startup</figcaption>
       </figure>
     </div>
 
     <div class="impact" role="list" aria-label="Selected results">
-      {impact.map((i) => (
-        <div role="listitem">
+      {impact.map((i, idx) => (
+        <div role="listitem" style={`--i:${idx}`}>
           <div class="impact-n">{i.n}</div>
           <div class="impact-l">{i.l}</div>
           <div class="impact-s">{i.s}</div>
         </div>
       ))}
     </div>
+   </div>
   </header>
+
+  <div class="ticker" aria-label="Product skills">
+    <div class="ticker-track">
+      {ticker.map((t) => <span>{t}</span>)}
+      {ticker.map((t) => <span aria-hidden="true">{t}</span>)}
+    </div>
+  </div>
 
   <!-- ============ EXPERIENCE ============ -->
   <section class="section" id="experience">
@@ -99,6 +123,8 @@ const method = [
         <p class="eyebrow">Experience</p>
         <h2 class="h2">Owning product at an early-stage company</h2>
       </div>
+
+      <div class="exp-list">
 
       <article class="job rise">
         <div>
@@ -137,6 +163,7 @@ const method = [
           </ul>
         </div>
       </article>
+      </div>
     </div>
   </section>
 
@@ -152,14 +179,14 @@ const method = [
         </p>
       </div>
 
-      <div class="work-grid">
+      <div class="work-grid" data-stagger>
         {projects.map((p) => (
-          <article class={`case rise${p.data.featured ? ' case--featured' : ''}`} id={p.id}>
+          <article class={`case${p.data.featured ? ' case--featured' : ''}`} id={p.id} data-tilt>
             <div class="case-top">
               <span>{p.data.category}</span>
               <span>{p.data.timeframe ?? p.data.year}</span>
             </div>
-            <h3 class="case-title"><a href={`/work/${p.id}`}>{p.data.title}</a></h3>
+            <h3 class="case-title" transition:name={`title-${p.id}`}><a href={`/work/${p.id}`}>{p.data.title}</a></h3>
             <p class="case-thesis">{p.data.tagline}</p>
             {p.data.role && <p class="case-role"><b>My role:</b> {p.data.role}</p>}
 
@@ -199,7 +226,7 @@ const method = [
         </p>
       </div>
 
-      <div class="method rise">
+      <div class="method" data-stagger>
         {method.map((m) => (
           <div>
             <h3>{m.h}</h3>
@@ -209,7 +236,7 @@ const method = [
         ))}
       </div>
 
-      <p class="note">
+      <p class="note rise">
         My computer science degree means I can read the codebase behind a spec, size work
         realistically with engineers and prototype an idea when that is the fastest way to test it.
         I treat that as a way to make better product decisions, not as the job itself.
@@ -219,7 +246,7 @@ const method = [
 
   <!-- ============ EDUCATION + SKILLS ============ -->
   <section class="section" id="education">
-    <div class="wrap two-col">
+    <div class="wrap two-col" data-stagger>
       <div>
         <p class="eyebrow">Education</p>
         <h2 class="h3" style="margin-top:0.6rem">Computer science, then data, then product</h2>
@@ -280,7 +307,7 @@ const method = [
         </p>
       </div>
 
-      <div class="contact-grid">
+      <div class="contact-grid" data-stagger>
         <form id="contactForm">
           <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
           <input type="hidden" name="subject" value="New message from singhadit.com" />
@@ -321,6 +348,8 @@ const method = [
 </Base>
 
 <script>
+  // Re-bind on every page load: client-side navigation brings in a fresh form.
+  document.addEventListener('astro:page-load', () => {
   const form = document.getElementById('contactForm') as HTMLFormElement | null;
   const note = document.getElementById('formNote');
   form?.addEventListener('submit', async (e) => {
@@ -355,5 +384,6 @@ const method = [
       note.textContent = 'That didn’t send. Please email singhadit.505@gmail.com directly.';
       note.className = 'form-note error';
     }
+  });
   });
 </script>
